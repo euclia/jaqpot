@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { HttkBaseComponent } from './httk.base.component';
 
@@ -6,7 +6,7 @@ describe('HttkBase', () => {
   let component: HttkBaseComponent;
   let fixture: ComponentFixture<HttkBaseComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HttkBaseComponent],
     }).compileComponents();

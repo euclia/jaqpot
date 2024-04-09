@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes, CanActivate } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AlgorithmsComponent } from './algorithms/algorithms-component/algorithms.component';
-import { DatasetComponent } from './dataset/dataset-component/dataset.component';
 import { ModelsComponent } from './models/models.component';
-import { BaseComponent } from './base/base.component';
 import { HomeComponent } from './home/home.component';
 import { DatasetDetailComponent } from './dataset/dataset-detail/dataset-detail.component';
 import { DatasetListComponent } from './dataset/dataset-list/dataset-list.component';
@@ -77,7 +75,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forRoot(routes)],
+  imports: [CommonModule, RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   declarations: [],
   exports: [RouterModule],
 })

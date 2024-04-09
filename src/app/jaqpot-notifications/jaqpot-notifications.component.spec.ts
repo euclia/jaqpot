@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { JaqpotNotificationsComponent } from './jaqpot-notifications.component';
 
@@ -6,7 +6,7 @@ describe('JaqpotNotificationsComponent', () => {
   let component: JaqpotNotificationsComponent;
   let fixture: ComponentFixture<JaqpotNotificationsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [JaqpotNotificationsComponent],
     }).compileComponents();

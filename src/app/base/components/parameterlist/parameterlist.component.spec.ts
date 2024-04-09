@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ParameterlistComponent } from './parameterlist.component';
 
@@ -6,7 +6,7 @@ describe('ParameterlistComponent', () => {
   let component: ParameterlistComponent;
   let fixture: ComponentFixture<ParameterlistComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ParameterlistComponent],
     }).compileComponents();

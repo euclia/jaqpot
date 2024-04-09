@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PredictValidateComponent } from './predict-validate.component';
 
@@ -6,7 +6,7 @@ describe('PredictValidateComponent', () => {
   let component: PredictValidateComponent;
   let fixture: ComponentFixture<PredictValidateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PredictValidateComponent],
     }).compileComponents();

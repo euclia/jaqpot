@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AskForIdComponent } from './ask-for-id.component';
 
@@ -6,7 +6,7 @@ describe('AskForIdComponent', () => {
   let component: AskForIdComponent;
   let fixture: ComponentFixture<AskForIdComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AskForIdComponent],
     }).compileComponents();

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { BrokenAffilNotifComponent } from './broken-affil-notif.component';
 
@@ -6,7 +6,7 @@ describe('BrokenAffilNotifComponent', () => {
   let component: BrokenAffilNotifComponent;
   let fixture: ComponentFixture<BrokenAffilNotifComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BrokenAffilNotifComponent],
     }).compileComponents();
