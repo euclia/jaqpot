@@ -1,3 +1,5 @@
+[![Publish Docker image](https://github.com/ntua-unit-of-control-and-informatics/jaqpot-frontend/actions/workflows/publish.yml/badge.svg)](https://github.com/ntua-unit-of-control-and-informatics/jaqpot-frontend/actions/workflows/publish.yml)
+
 # Jaqpot
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli)
