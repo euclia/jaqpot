@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { InvitationNotifDialogComponent } from './invitation-notif-dialog.component';
 
@@ -6,7 +6,7 @@ describe('InvitationNotifDialogComponent', () => {
   let component: InvitationNotifDialogComponent;
   let fixture: ComponentFixture<InvitationNotifDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [InvitationNotifDialogComponent],
     }).compileComponents();

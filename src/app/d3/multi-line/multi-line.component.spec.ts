@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MultiLineComponent } from './multi-line.component';
 
@@ -6,7 +6,7 @@ describe('MultiLineComponent', () => {
   let component: MultiLineComponent;
   let fixture: ComponentFixture<MultiLineComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MultiLineComponent],
     }).compileComponents();

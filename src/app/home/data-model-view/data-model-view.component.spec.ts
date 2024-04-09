@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DataModelViewComponent } from './data-model-view.component';
 
@@ -6,7 +6,7 @@ describe('DataModelViewComponent', () => {
   let component: DataModelViewComponent;
   let fixture: ComponentFixture<DataModelViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DataModelViewComponent],
     }).compileComponents();

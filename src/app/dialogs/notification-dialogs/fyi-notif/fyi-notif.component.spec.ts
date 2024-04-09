@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FyiNotifComponent } from './fyi-notif.component';
 
@@ -6,7 +6,7 @@ describe('FyiNotifComponent', () => {
   let component: FyiNotifComponent;
   let fixture: ComponentFixture<FyiNotifComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FyiNotifComponent],
     }).compileComponents();
