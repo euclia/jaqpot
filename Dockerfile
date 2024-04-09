@@ -1,4 +1,4 @@
-FROM node:16-alpine AS builder
+FROM node:14-alpine AS builder
 ARG CONFIGURATION='production'
 
 # Make /app as working directory
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json .
 
 # Install dependencies
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Copy the source code to the /app directory
 COPY . .
