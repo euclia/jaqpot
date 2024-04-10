@@ -118,6 +118,7 @@ import { ChartComponentComponent } from './base/components/chart-component/chart
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from '../environments/environment';
+import { AuthConfigModule } from './auth/auth-config.module';
 
 // import { EucliaAccounts } from '@euclia/accounts-client';
 /**
@@ -192,6 +193,11 @@ import { environment } from '../environments/environment';
     //     deps: [OidcConfigService],
     //     multi: true
     // }
+  ],
+
+  imports: [
+     AuthConfigModule
+
   ],
 })
 export class MaterialModule {}
@@ -281,13 +287,7 @@ export class MaterialModule {}
   bootstrap: [AppComponent],
   providers: [
     SessionService,
-    OidcConfigService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: configureAuth,
-      deps: [OidcConfigService],
-      multi: true,
-    },
+    OidcConfigService
   ],
   entryComponents: [],
 })

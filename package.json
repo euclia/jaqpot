@@ -30,7 +30,7 @@
     "@angular/platform-browser-dynamic": "~11.2.14",
     "@angular/router": "~11.2.14",
     "@euclia/accounts-client": "^1.0.22",
-    "angular-auth-oidc-client": "^11.0.0",
+    "angular-auth-oidc-client": "11.6.11",
     "apexcharts": "3.33.0",
     "core-js": "^2.5.7",
     "d3": "^5.9.2",
