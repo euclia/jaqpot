@@ -34,12 +34,12 @@ export class UserService {
   }
 
   public getUserById(id: string): Promise<EucliaUser> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     return this.accountsClient.getUser(id, token);
   }
 
   // public getUserById(id:string): Observable<User> {
-  //     const token = this.oidcSecurityService.getToken();
+  //     const token = this.oidcSecurityService.getAccessToken();
   //     const tokenValue = 'Bearer ' + token;
   //     let headers = new HttpHeaders().set('Content-Type','application/json').set('Authorization', tokenValue);
   //     let params = new HttpParams();
@@ -50,7 +50,7 @@ export class UserService {
   // }
 
   // public updateUserById(id:string, user:User): Observable<User> {
-  //     const token = this.oidcSecurityService.getToken();
+  //     const token = this.oidcSecurityService.getAccessToken();
   //     const tokenValue = 'Bearer ' + token;
   //     let headers = new HttpHeaders().set('Content-Type','application/json').set('Authorization', tokenValue);
   //     let params = new HttpParams();
@@ -61,7 +61,7 @@ export class UserService {
   // }
 
   // public searchUserByName(name:string): Observable<Array<User>> {
-  //     const token = this.oidcSecurityService.getToken();
+  //     const token = this.oidcSecurityService.getAccessToken();
   //     const tokenValue = 'Bearer ' + token;
   //     let headers = new HttpHeaders().set('Content-Type','application/json').set('Authorization', tokenValue);
   //     let params = new HttpParams().set('name', name);
@@ -72,7 +72,7 @@ export class UserService {
   // }
 
   // public searchUserEmail(email:string): Observable<Array<User>> {
-  //     const token = this.oidcSecurityService.getToken();
+  //     const token = this.oidcSecurityService.getAccessToken();
   //     const tokenValue = 'Bearer ' + token;
   //     let headers = new HttpHeaders().set('Content-Type','application/json').set('Authorization', tokenValue);
   //     let params = new HttpParams().set('mail', email);

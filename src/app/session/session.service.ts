@@ -25,9 +25,9 @@ export class SessionService {
   _userData: any;
 
   constructor(private _oidc: OidcSecurityService) {
-    // this.token = this._oidc.getToken()
-    // this.accessToken.next(this._oidc.getToken())
-    // this.token = this._oidc.getToken()
+    // this.token = this._oidc.getAccessToken()
+    // this.accessToken.next(this._oidc.getAccessToken())
+    // this.token = this._oidc.getAccessToken()
     // this.userData$ = this._oidc.userData$
     // this.userData$.subscribe(d=>{
     //     this._userData = d
@@ -67,7 +67,7 @@ export class SessionService {
   }
 
   getToken(): string {
-    return this._oidc.getToken();
+    return this._oidc.getAccessToken();
     // return this.token
   }
 

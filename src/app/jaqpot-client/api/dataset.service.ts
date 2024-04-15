@@ -47,7 +47,7 @@ export class DatasetService extends BaseClient<Dataset> {
 
   public uploadNewDatasetForPrediction(dataset: Dataset): Observable<Dataset> {
     dataset.existence = Dataset.ExistenceEnum.FORPREDICTION;
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -63,7 +63,7 @@ export class DatasetService extends BaseClient<Dataset> {
 
   public uploadNewDataset(dataset: Dataset): Observable<Dataset> {
     dataset.existence = Dataset.ExistenceEnum.UPLOADED;
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -78,7 +78,7 @@ export class DatasetService extends BaseClient<Dataset> {
   }
 
   public putMeta(dataset: Dataset): Observable<MetaInfo> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -95,7 +95,7 @@ export class DatasetService extends BaseClient<Dataset> {
   }
 
   public getDataEntryPaginated(datasetId: string, start: number, max: number) {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -117,7 +117,7 @@ export class DatasetService extends BaseClient<Dataset> {
     datasetId: string,
     dataset: Dataset,
   ): Observable<Dataset> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')

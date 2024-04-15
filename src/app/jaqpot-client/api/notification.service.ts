@@ -41,7 +41,7 @@ export class NotificationService extends BaseClient<Notification> {
   }
 
   public getUnreadNotifications(): Observable<any> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -58,7 +58,7 @@ export class NotificationService extends BaseClient<Notification> {
   }
 
   public getUnreadNotificationsResponse() {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -76,7 +76,7 @@ export class NotificationService extends BaseClient<Notification> {
     start: number,
     max: number,
   ): Observable<any> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -94,7 +94,7 @@ export class NotificationService extends BaseClient<Notification> {
     start: number,
     max: number,
   ): Observable<any> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -119,7 +119,7 @@ export class NotificationService extends BaseClient<Notification> {
   }
 
   public countUnreadNotifications(): Observable<any> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')

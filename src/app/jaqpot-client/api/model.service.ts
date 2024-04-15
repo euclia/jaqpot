@@ -27,7 +27,7 @@ export class ModelApiService extends BaseClient<Dataset> {
   }
 
   public putMeta(model: Model): Observable<MetaInfo> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -48,7 +48,7 @@ export class ModelApiService extends BaseClient<Dataset> {
     visible,
     doa: boolean,
   ): Observable<Task> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')
@@ -69,7 +69,7 @@ export class ModelApiService extends BaseClient<Dataset> {
   }
 
   public updateOnTrash(modelId: string, model: Model): Observable<Model> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/json')

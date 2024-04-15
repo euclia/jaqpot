@@ -51,7 +51,7 @@ export class AlgorithmService {
 
   constructor(
     private http: HttpClient,
-    private sessionServise: SessionService,
+    private sessionService: SessionService,
     private dialogsService: DialogsService,
     public oidcSecurityService: OidcSecurityService,
   ) {
@@ -77,7 +77,7 @@ export class AlgorithmService {
     params.set('max', max.toString());
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers.set('subjectid', this._subjectId);
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     headers.set('Authorization', tokenValue);
     return this.http
@@ -101,7 +101,7 @@ export class AlgorithmService {
     params.set('max', '1');
 
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     headers.set('Authorization', tokenValue);
 
@@ -118,7 +118,7 @@ export class AlgorithmService {
 
   public getAlgorithmById(id: string): Observable<Algorithm> {
     let params = new HttpParams();
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',

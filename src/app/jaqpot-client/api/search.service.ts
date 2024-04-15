@@ -34,7 +34,7 @@ export class SearchApiService {
   }
 
   public startSearch(searchTerm: string): Observable<SearchSession> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -54,7 +54,7 @@ export class SearchApiService {
     from: number,
     to: number,
   ): Observable<FountEntities> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')

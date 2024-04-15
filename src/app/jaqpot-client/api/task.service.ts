@@ -34,7 +34,7 @@ export class TaskApiService extends BaseClient<Task> {
   }
 
   public getTask(taskId: string): Observable<Task> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')

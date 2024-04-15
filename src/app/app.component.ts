@@ -14,9 +14,9 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 
 import {
   OidcSecurityService,
-  PublicConfiguration,
   OidcClientNotification,
 } from 'angular-auth-oidc-client';
+import { map } from 'rxjs/operators';
 
 // import { Store } from '@ngrx/store';
 
@@ -32,8 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
   isAuthorizedSubscription: Subscription;
   isAuthorized: boolean;
 
-  configuration: PublicConfiguration;
-  userDataChanged$: Observable<OidcClientNotification<any>>;
   userData$: Observable<any>;
   isAuthenticated$: Observable<boolean>;
   checkSessionChanged$: Observable<boolean>;
@@ -64,9 +62,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.configuration = this.oidcSecurityService.configuration;
     this.userData$ = this.oidcSecurityService.userData$;
-    this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
+    this.isAuthenticated$ = this.oidcSecurityService.isAuthenticated$.pipe(
+      map((result) => result.isAuthenticated),
+    );
     this.checkSessionChanged$ = this.oidcSecurityService.checkSessionChanged$;
 
     this.oidcSecurityService
@@ -76,8 +75,8 @@ export class AppComponent implements OnInit, OnDestroy {
       );
     this.isAuthorizedSubscription =
       this.oidcSecurityService.isAuthenticated$.subscribe(
-        (isAuthorized: boolean) => {
-          if (isAuthorized === true) {
+        ({ isAuthenticated }) => {
+          if (isAuthenticated === true) {
             this.isAuthorized = true;
             this.loggedIn = true;
             this.userData$.subscribe((d) => {
