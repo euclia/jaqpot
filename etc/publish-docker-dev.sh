@@ -13,5 +13,5 @@ fi
 echo "You entered: $IMAGE_TAG"
 
 docker login
-docker build --build-arg="CONFIGURATION=development" -t upcintua/jaqpot-frontend-dev:"${IMAGE_TAG}" .
+docker build --build-arg="CONFIGURATION=local" -t upcintua/jaqpot-frontend-dev:"${IMAGE_TAG}" .
 docker push upcintua/jaqpot-frontend-dev:"${IMAGE_TAG}"

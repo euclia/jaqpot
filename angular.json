@@ -44,22 +44,6 @@
                 }
               ]
             },
-            "development": {
-              "optimization": false,
-              "outputHashing": "all",
-              "sourceMap": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
-            },
             "local": {
               "optimization": false,
               "outputHashing": "all",
@@ -86,9 +70,6 @@
           "configurations": {
             "production": {
               "browserTarget": "jaqpot:build:production"
-            },
-            "development": {
-              "browserTarget": "jaqpot:build:development"
             },
             "local": {
               "browserTarget": "jaqpot:build:local"
