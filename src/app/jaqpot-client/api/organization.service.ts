@@ -55,12 +55,12 @@ export class OrganizationService {
   }
 
   public getOrgById(id: string): Promise<Organization> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     return this.accountsClient.getOrganization(id, token);
   }
 
   // public searchOrgById(id:string): Observable<Array<Organization>> {
-  //     const token = this.oidcSecurityService.getToken();
+  //     const token = this.oidcSecurityService.getAccessToken();
   //     const tokenValue = 'Bearer ' + token;
   //     let headers = new HttpHeaders().set('Content-Type','application/json').set('Authorization', tokenValue);
   //     let params = new HttpParams().set('orgname', id);
@@ -71,7 +71,7 @@ export class OrganizationService {
   // }
 
   // public removeAffiliation(orgs:Organization[]):Observable<Response>{
-  //     const token = this.oidcSecurityService.getToken();
+  //     const token = this.oidcSecurityService.getAccessToken();
   //     const tokenValue = 'Bearer ' + token;
   //     let headers = new HttpHeaders().set('Content-Type','application/json').set('Authorization', tokenValue);
   //     return this.http.put(this._organizationBase + "affiliations", orgs, { headers: headers }).pipe(
@@ -84,7 +84,7 @@ export class OrganizationService {
   //     let params = new URLSearchParams();
 
   //     let headers = new Headers({'Content-Type':'application/json'});
-  //     const token = this.oidcSecurityService.getToken();
+  //     const token = this.oidcSecurityService.getAccessToken();
   //     const tokenValue = 'Bearer ' + token;
   //     headers.set('Authorization', tokenValue);
 

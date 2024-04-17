@@ -36,7 +36,7 @@ export class ManageAccountsDialogComponent implements OnInit {
   }
 
   downloadApiKey() {
-    let fileName = 'jaqpot_api_key.txt';
+    const fileName = 'jaqpot_api_key.txt';
 
     if (!this.setting.element.dynamicDownload) {
       this.setting.element.dynamicDownload = document.createElement('a');
@@ -44,14 +44,14 @@ export class ManageAccountsDialogComponent implements OnInit {
     const element = this.setting.element.dynamicDownload;
     const fileType =
       fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
-    let text = this.sessionService.getToken();
+    const text = this.sessionService.getToken();
     element.setAttribute(
       'href',
       `data:${fileType};charset=utf-8,${encodeURIComponent(text)}`,
     );
     element.setAttribute('download', fileName);
 
-    var event = new MouseEvent('click');
+    const event = new MouseEvent('click');
     element.dispatchEvent(event);
   }
 }

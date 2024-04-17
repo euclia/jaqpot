@@ -67,6 +67,7 @@ import {
   OidcSecurityService,
   OidcConfigService,
   LogLevel,
+  AbstractSecurityStorage,
 } from 'angular-auth-oidc-client';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MarkdownModule } from 'ngx-markdown';
@@ -118,7 +119,7 @@ import { ChartComponentComponent } from './base/components/chart-component/chart
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from '../environments/environment';
-import { AuthConfigModule } from './auth/auth-config.module';
+import { AuthLocalStorage } from './session/security.storage';
 
 // import { EucliaAccounts } from '@euclia/accounts-client';
 /**
@@ -195,10 +196,7 @@ import { AuthConfigModule } from './auth/auth-config.module';
     // }
   ],
 
-  imports: [
-     AuthConfigModule
-
-  ],
+  imports: [],
 })
 export class MaterialModule {}
 
@@ -223,7 +221,27 @@ export class MaterialModule {}
     FlexLayoutModule,
     MarkdownModule.forRoot(),
     // AuthModule.forRoot( { storage:SecurityStorage } ),
-    AuthModule.forRoot(),
+    AuthModule.forRoot({
+      config: {
+        authority: environment.stsServer,
+        redirectUrl: environment.redirect_url,
+        clientId: environment.client_id,
+        responseType: environment.response_type,
+        scope: environment.scope,
+        // postLogoutRedirectUri: customConfig.baseurl,
+        // startCheckSession: customConfig.start_checksession,
+        // silentRenew: customConfig.silent_renew,
+        silentRenewUrl: environment.silent_redirect_url,
+        postLogoutRedirectUri: window.location.origin,
+        // postLoginRoute: customConfig.baseurl,
+        // forbiddenRoute: customConfig.baseurl,
+        // unauthorizedRoute: customConfig.baseurl,
+        logLevel: LogLevel.Error, // LogLevel.Debug,
+        maxIdTokenIatOffsetAllowedInSeconds: 120,
+        historyCleanupOff: true,
+        // autoUserinfo: true,
+      },
+    }),
     CommonModule,
   ],
   exports: [
@@ -287,7 +305,8 @@ export class MaterialModule {}
   bootstrap: [AppComponent],
   providers: [
     SessionService,
-    OidcConfigService
+    OidcConfigService,
+    { provide: AbstractSecurityStorage, useClass: AuthLocalStorage },
   ],
   entryComponents: [],
 })
@@ -338,29 +357,4 @@ export class AppModule {
   changeTheme(theme: string) {
     this.overlayContainer.getContainerElement().classList.add(theme);
   }
-}
-
-export function configureAuth(oidcConfigService: OidcConfigService) {
-  const oidcConfig = {
-    stsServer: environment.stsServer,
-    redirectUrl: environment.redirect_url,
-    clientId: environment.client_id,
-    responseType: environment.response_type,
-    scope: environment.scope,
-    // postLogoutRedirectUri: customConfig.baseurl,
-    // startCheckSession: customConfig.start_checksession,
-    // silentRenew: customConfig.silent_renew,
-    silentRenewUrl: environment.silent_redirect_url,
-    postLogoutRedirectUri: window.location.origin,
-    // postLoginRoute: customConfig.baseurl,
-    // forbiddenRoute: customConfig.baseurl,
-    // unauthorizedRoute: customConfig.baseurl,
-    logLevel: LogLevel.Error, // LogLevel.Debug,
-    maxIdTokenIatOffsetAllowedInSeconds: 120,
-    historyCleanupOff: true,
-    autoUserinfo: true,
-    storage: localStorage,
-  };
-
-  return () => oidcConfigService.withConfig(oidcConfig);
 }

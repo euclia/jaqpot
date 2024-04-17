@@ -1,19 +1,21 @@
-// import { Injectable } from "@angular/core";
-// import { SessionService } from "./session.service";
+import { AbstractSecurityStorage } from 'angular-auth-oidc-client';
+import { Injectable } from '@angular/core';
 
-// @Injectable()
-// export class SecurityStorage implements OidcSecurityStorage{
+@Injectable()
+export class AuthLocalStorage implements AbstractSecurityStorage {
+  read(key: string) {
+    return localStorage.getItem(key);
+  }
 
-//     constructor(private _sessionService:SessionService){}
+  write(key: string, value: any): void {
+    localStorage.setItem(key, value);
+  }
 
-//     public read(key:string): any{
-//         console.log(key)
-//         // return this._sessionService.getAccessToken();
-//     }
+  remove(key: string): void {
+    localStorage.removeItem(key);
+  }
 
-//     public write(key:string, value:any){
-//         // console.log(value)
-//         this._sessionService.setAccessToken(key, value);
-//     }
-
-// }
+  clear(): void {
+    localStorage.clear();
+  }
+}

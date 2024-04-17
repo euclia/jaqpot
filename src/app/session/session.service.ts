@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { Algorithm } from '../jaqpot-client/model/algorithm';
 import { Dataset } from '../jaqpot-client/model/dataset';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { OidcSecurityService, UserDataResult } from 'angular-auth-oidc-client';
 
 @Injectable()
 export class SessionService {
@@ -25,9 +25,9 @@ export class SessionService {
   _userData: any;
 
   constructor(private _oidc: OidcSecurityService) {
-    // this.token = this._oidc.getToken()
-    // this.accessToken.next(this._oidc.getToken())
-    // this.token = this._oidc.getToken()
+    // this.token = this._oidc.getAccessToken()
+    // this.accessToken.next(this._oidc.getAccessToken())
+    // this.token = this._oidc.getAccessToken()
     // this.userData$ = this._oidc.userData$
     // this.userData$.subscribe(d=>{
     //     this._userData = d
@@ -48,10 +48,12 @@ export class SessionService {
     return this._userData;
   }
 
-  setUserData(userData: any) {
+  setUserData(userDataResult: UserDataResult) {
+    const userData = userDataResult.userData;
+    const { email, sub } = userData;
     this._userData = userData;
-    this.userEmail = userData.email;
-    this.userid = userData.sub;
+    this.userEmail = email;
+    this.userid = sub;
   }
 
   getUserName(): Observable<any> {
@@ -67,7 +69,7 @@ export class SessionService {
   }
 
   getToken(): string {
-    return this._oidc.getToken();
+    return this._oidc.getAccessToken();
     // return this.token
   }
 

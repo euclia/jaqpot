@@ -29,7 +29,7 @@ export class FeatureApiService extends BaseClient<Feature> {
   //     let params = new URLSearchParams();
 
   //     let headers = new Headers({'Content-Type':'application/json'});
-  //     const token = this.oidcSecurityService.getToken();
+  //     const token = this.oidcSecurityService.getAccessToken();
   //     const tokenValue = 'Bearer ' + token;
   //     headers.set('Authorization', tokenValue);
 

@@ -25,7 +25,7 @@ export class DoaApiService extends BaseClient<Doa> {
   }
 
   public getDoa(hasSources: string): Observable<Doa> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -41,7 +41,7 @@ export class DoaApiService extends BaseClient<Doa> {
   }
 
   public checkIfDoaExists(hasSources: string) {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/json')

@@ -33,7 +33,7 @@ export abstract class BaseClient<T> {
 
   public getWithIdSecured<T>(id: string): Observable<T> {
     let params = new HttpParams();
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',
@@ -49,7 +49,7 @@ export abstract class BaseClient<T> {
   }
 
   public getList<T>(params: HttpParams) {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',
@@ -68,7 +68,7 @@ export abstract class BaseClient<T> {
     property: string,
   ): Observable<T> {
     let params = new HttpParams();
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',
@@ -85,7 +85,7 @@ export abstract class BaseClient<T> {
 
   public putWithIdSecured<T>(id: string, updateIt: any): Observable<T> {
     let params = new HttpParams();
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',
@@ -104,7 +104,7 @@ export abstract class BaseClient<T> {
 
   public putEntitySecured<T>(updateIt: any): Observable<T> {
     let params = new HttpParams();
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',
@@ -122,7 +122,7 @@ export abstract class BaseClient<T> {
   }
 
   public postEntity<T>(entity: any): Observable<T> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',
@@ -138,7 +138,7 @@ export abstract class BaseClient<T> {
   }
 
   public deleteEntityWithID<T>(id: string): Observable<T> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',
@@ -154,7 +154,7 @@ export abstract class BaseClient<T> {
   }
 
   public deleteEntity<T>(entity): Observable<T> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',
@@ -175,7 +175,7 @@ export abstract class BaseClient<T> {
   }
 
   public count<T>(params: HttpParams): Observable<any> {
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenValue = 'Bearer ' + token;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' }).set(
       'Authorization',

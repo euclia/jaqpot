@@ -20,7 +20,7 @@ import { User } from '@euclia/accounts-client/dist/models/user';
 import {
   OidcClientNotification,
   OidcSecurityService,
-  PublicConfiguration,
+  UserDataResult,
 } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
 
@@ -55,14 +55,8 @@ export class ModelIdComponent implements OnInit, OnDestroy {
   newTag: string;
   addTagB: boolean = false;
 
-  configuration: PublicConfiguration;
-  userDataChanged$: Observable<OidcClientNotification<any>>;
-  userData$: Observable<any>;
-  isAuthenticated$: Observable<boolean>;
-  checkSessionChanged$: Observable<boolean>;
-  checkSessionChanged: any;
-
   trainedMeta: Object;
+  private userData$: Observable<UserDataResult>;
 
   constructor(
     private rightsService: RightsService,
@@ -99,7 +93,7 @@ export class ModelIdComponent implements OnInit, OnDestroy {
       try {
         this.trainedMeta = model.additionalInfo['fromUser']['meta'];
       } catch (e) {
-        e;
+        console.error(e);
       }
 
       this.userApi
@@ -117,21 +111,23 @@ export class ModelIdComponent implements OnInit, OnDestroy {
         });
     });
 
-    this.oidcSecurityService.isAuthenticated$.subscribe((is) => {
-      if (is === false) {
-        if (this.router.url.includes('model')) {
-          localStorage.setItem('goToModel', this.router.url.split('/')[2]);
-        }
-        this.oidcSecurityService.authorize();
-      } else {
-        this.userData$.subscribe((d) => {
-          if (d) {
-            this.sessionService.setUserData(d);
+    this.oidcSecurityService.isAuthenticated$.subscribe(
+      ({ isAuthenticated }) => {
+        if (isAuthenticated === false) {
+          if (this.router.url.includes('model')) {
+            localStorage.setItem('goToModel', this.router.url.split('/')[2]);
           }
-        });
-        localStorage.removeItem('goToModel');
-      }
-    });
+          this.oidcSecurityService.authorize();
+        } else {
+          this.userData$.subscribe((d) => {
+            if (d) {
+              this.sessionService.setUserData(d);
+            }
+          });
+          localStorage.removeItem('goToModel');
+        }
+      },
+    );
   }
 
   ngOnDestroy() {
