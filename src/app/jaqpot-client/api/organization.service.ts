@@ -12,23 +12,15 @@
  * Do not edit the class manually.
  */
 
-/* tslint:disable:no-unused-variable member-ordering */
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import { Inject, Injectable, Optional } from '@angular/core';
-import { map, filter, catchError, mergeMap, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
 import '../rxjs-operators';
 
-// import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { SessionService } from '../../session/session.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { BaseClient } from './base.client';
-import { HttpClient } from '@angular/common/http';
-import {
-  EucliaAccountsFactory,
-  IEucliaAccounts,
-} from '@euclia/accounts-client/dist/EucliaAccounts';
+import { EucliaAccountsFactory, IEucliaAccounts } from '@euclia/accounts-client';
 import { Organization } from '@euclia/accounts-client/dist/models/models';
 import { environment } from '../../../environments/environment';
 
@@ -39,58 +31,19 @@ export class OrganizationService {
   private accountsClient: IEucliaAccounts;
 
   constructor(
-    http: HttpClient,
     public sessionService: SessionService,
     public dialogsService: DialogsService,
     public oidcSecurityService: OidcSecurityService,
   ) {
-    // super(http, dialogsService, oidcSecurityService, "/organization/")
-    // console.log("Orgs api at:")
-    // console.log(Config.AccountsApi)
     this._privateBasePath = environment.jaqpotApi;
-    (this.accountsClient = new EucliaAccountsFactory(
+    this.accountsClient = new EucliaAccountsFactory(
       environment.accountsApi,
-    ).getClient()),
-      (this._organizationBase = this._privateBasePath + '/organization/');
+    ).getClient();
+    this._organizationBase = this._privateBasePath + '/organization/';
   }
 
   public getOrgById(id: string): Promise<Organization> {
     const token = this.oidcSecurityService.getAccessToken();
     return this.accountsClient.getOrganization(id, token);
   }
-
-  // public searchOrgById(id:string): Observable<Array<Organization>> {
-  //     const token = this.oidcSecurityService.getAccessToken();
-  //     const tokenValue = 'Bearer ' + token;
-  //     let headers = new HttpHeaders().set('Content-Type','application/json').set('Authorization', tokenValue);
-  //     let params = new HttpParams().set('orgname', id);
-  //     return this.http.get(this._organizationBase + "search/and/found", { headers: headers, params: params }).pipe(
-  //         tap((res : Response) => {
-  //             return res
-  //         }),catchError( err => this.dialogsService.onError(err) ));
-  // }
-
-  // public removeAffiliation(orgs:Organization[]):Observable<Response>{
-  //     const token = this.oidcSecurityService.getAccessToken();
-  //     const tokenValue = 'Bearer ' + token;
-  //     let headers = new HttpHeaders().set('Content-Type','application/json').set('Authorization', tokenValue);
-  //     return this.http.put(this._organizationBase + "affiliations", orgs, { headers: headers }).pipe(
-  //         tap((res : Response) => {
-  //             return res
-  //         }),catchError( err => this.dialogsService.onError(err) ));
-  // }
-
-  // public updateOrganizationById(id:string, user:User): Observable<User> {
-  //     let params = new URLSearchParams();
-
-  //     let headers = new Headers({'Content-Type':'application/json'});
-  //     const token = this.oidcSecurityService.getAccessToken();
-  //     const tokenValue = 'Bearer ' + token;
-  //     headers.set('Authorization', tokenValue);
-
-  //     return this.http.put(this._userBase + id, user ,{ headers: headers, search: params }).pipe(
-  //         map((res : Response) => {
-  //             return res.json()
-  //         }),catchError( err => this.dialogsService.onError(err) ));
-  // }
 }

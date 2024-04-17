@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { OidcSecurityService } from '../../../../node_modules/angular-auth-oidc-client';
 import { Organization } from '../../jaqpot-client/model/organization';
@@ -11,7 +11,7 @@ import { Router } from '../../../../node_modules/@angular/router';
   templateUrl: './create-organization.component.html',
   styleUrls: ['./create-organization.component.css'],
 })
-export class CreateOrganizationComponent implements OnInit {
+export class CreateOrganizationComponent {
   organization: Organization = <Organization>{};
   public hostPath: string;
   orgId: string;
@@ -25,8 +25,6 @@ export class CreateOrganizationComponent implements OnInit {
   ) {
     this.hostPath = window.location.host;
   }
-
-  ngOnInit() {}
 
   createOrganization() {
     // this.organization._id = this.orgId

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
@@ -11,7 +11,7 @@ import { Organization } from '@euclia/accounts-client/dist/models/models';
   templateUrl: './affiliations-dialog.component.html',
   styleUrls: ['./affiliations-dialog.component.css'],
 })
-export class AffiliationsDialogComponent implements OnInit {
+export class AffiliationsDialogComponent {
   organizationApi: OrganizationService;
   notificationApi: NotificationService;
   notificationFactory: NotificationFactoryService;
@@ -29,25 +29,6 @@ export class AffiliationsDialogComponent implements OnInit {
     private sessionService: SessionService,
     public snackBar: MatSnackBar,
   ) {}
-
-  ngOnInit() {}
-
-  inputChanged(orgname: string) {
-    // if(orgname.length > 1){
-    //   this.organizations = []
-    //   this.organizationApi.searchOrgById(orgname).subscribe((orgs:Organization[])=>{
-    //     if(orgs.length > 0){
-    //       orgs.forEach((org:Organization)=>{
-    //         this.organizationApi.getWithIdSecured(org._id).subscribe((org:Organization) =>{
-    //           if(org._id != this.fromOrg ){
-    //             this.organizations.push(org)
-    //           }
-    //         })
-    //       })
-    //     }
-    //   })
-    // }
-  }
 
   request() {
     this.organizationApi

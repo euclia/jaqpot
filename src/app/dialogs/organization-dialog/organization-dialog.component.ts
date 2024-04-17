@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { OidcSecurityService } from '../../../../node_modules/angular-auth-oidc-client';
 import { Router } from '../../../../node_modules/@angular/router';
@@ -11,7 +11,7 @@ import { Organization } from '@euclia/accounts-client/dist/models/models';
   templateUrl: './organization-dialog.component.html',
   styleUrls: ['./organization-dialog.component.css'],
 })
-export class OrganizationDialogComponent implements OnInit {
+export class OrganizationDialogComponent implements AfterViewInit {
   organization: Organization;
   organizationService: OrganizationService;
   edit: boolean = false;
@@ -25,11 +25,8 @@ export class OrganizationDialogComponent implements OnInit {
     // public organizationService:OrganizationService
   ) {}
 
-  ngOnInit() {}
-
   ngAfterViewInit() {
-    var userData = this.sessionService.getUserData();
-    // console.log(this.organization)
+    const userData = this.sessionService.getUserData();
     if (
       userData.groups.includes('/Administrator') &&
       this.organization._id === 'Jaqpot'
@@ -41,7 +38,7 @@ export class OrganizationDialogComponent implements OnInit {
       this.organization.creator &&
       this.organization.creator === userData.sub
     ) {
-      setTimeout((_) => (this.edit = true));
+      setTimeout(() => (this.edit = true));
     }
   }
 

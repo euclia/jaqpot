@@ -1,36 +1,21 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnChanges,
-  ViewChild,
-  ComponentFactoryResolver,
-} from '@angular/core';
-import {
-  Dataset,
-  Feature,
-  FeatureInfo,
-  ErrorReport,
-  DataEntry,
-} from '../../jaqpot-client';
+import { AfterViewInit, Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { DataEntry, Dataset, ErrorReport, Feature, FeatureInfo } from '../../jaqpot-client';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subscription, merge, of, Subject, BehaviorSubject } from 'rxjs';
-import { startWith, switchMap, catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, merge, of, Subscription } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { DatasetToViewdataService } from '../../services/dataset-to-viewdata.service';
 import { DatasourceToCsvService } from '../../services/table-to-csv.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { HttpErrorResponse } from '@angular/common/http';
-//JASON - Start - 11/10
-//JASON - End - 11/10
 
 @Component({
   selector: 'app-pbpk-predicted',
   templateUrl: './pbpk-predicted.component.html',
   styleUrls: ['./pbpk-predicted.component.css'],
 })
-export class PbpkPredictedComponent implements OnChanges {
+export class PbpkPredictedComponent implements OnChanges, AfterViewInit {
   @Input() predictedDataset: Dataset;
 
   displayedColumns: string[] = [];

@@ -1,15 +1,7 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  Input,
-  EventEmitter,
-  Output,
-  OnChanges,
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { Observable, of, Subject } from 'rxjs';
-import { Model, Feature, MetaInfo } from '../../jaqpot-client';
+import { Subject } from 'rxjs';
+import { Feature, MetaInfo, Model } from '../../jaqpot-client';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
 
 @Component({
@@ -17,14 +9,12 @@ import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
   templateUrl: './model-features.component.html',
   styleUrls: ['./model-features.component.css'],
 })
-export class ModelFeaturesComponent implements OnChanges {
+export class ModelFeaturesComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @Input() modelToSee: Model;
 
   @Input() viewOrEdit: string;
-
-  // @Input() saveEmit:string;
 
   @Output() modelChanged = new EventEmitter<any>();
 

@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DialogsService } from './dialogs/dialogs.service';
-import { OnInit, OnDestroy } from '@angular/core';
 import { LoginDialogComponent } from './dialogs/login-logout-dialog/login-dialog.component';
 import { LogoutDialogComponent } from './dialogs/login-logout-dialog/logout-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SessionService } from './session/session.service';
-import { Subscription, Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { OidcSecurityService, UserDataResult } from 'angular-auth-oidc-client';
@@ -16,7 +15,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   isDarkTheme: boolean;
   loggedIn: boolean;
   subscription: Subscription;
@@ -89,10 +88,6 @@ export class AppComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnDestroy(): void {
-    // this.oidcSecurityService.onModuleSetup.unsubscribe();
-  }
-
   openLoginDialog() {
     let dialogRef = this.dialog.open(LoginDialogComponent, {});
   }
@@ -100,16 +95,6 @@ export class AppComponent implements OnInit, OnDestroy {
   openLogoutDialog() {
     let dialogRef = this.dialog.open(LogoutDialogComponent, {});
   }
-
-  // openAccountDialog(){
-  //   let dialogRef = this.dialog.open(AccountDialogComponent,{
-  //     height: '100%',
-  //     width: '100%',
-  //     maxHeight:'100%',
-  //     maxWidth:'100%',
-  //     panelClass: 'account_dialog'
-  //   });
-  // }
 
   changeTheme(): void {
     if (this.isDarkTheme === true) {

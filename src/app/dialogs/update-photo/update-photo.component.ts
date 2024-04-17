@@ -1,15 +1,15 @@
-import { Component, OnInit, Optional, Inject } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
 import { ModelApiService } from '../../jaqpot-client/api/model.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-update-photo',
   templateUrl: './update-photo.component.html',
   styleUrls: ['./update-photo.component.css'],
 })
-export class UpdatePhotoComponent implements OnInit {
+export class UpdatePhotoComponent {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   loadImageFailed: any = '';
@@ -25,8 +25,6 @@ export class UpdatePhotoComponent implements OnInit {
     @Optional() public dialogRef: MatDialogRef<UpdatePhotoComponent>,
     @Inject(MAT_DIALOG_DATA) public profPic: string,
   ) {}
-
-  ngOnInit() {}
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;

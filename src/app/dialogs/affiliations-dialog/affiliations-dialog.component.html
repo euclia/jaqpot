@@ -6,7 +6,6 @@
         matInput
         placeholder="Organization"
         [(ngModel)]="orgsearch"
-        (keypress)="inputChanged($event.target.value)"
         [matAutocomplete]="auto"
         [ngModelOptions]="{ standalone: true }"
       />

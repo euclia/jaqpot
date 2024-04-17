@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Parameter } from '../../../jaqpot-client';
 
 @Component({
@@ -6,10 +6,8 @@ import { Parameter } from '../../../jaqpot-client';
   templateUrl: './parametersteps.component.html',
   styleUrls: ['./parametersteps.component.css'],
 })
-export class ParameterstepsComponent implements OnInit {
+export class ParameterstepsComponent {
   @Input() parameters: Array<Parameter>;
 
   constructor() {}
-
-  ngOnInit() {}
 }
