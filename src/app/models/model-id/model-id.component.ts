@@ -20,6 +20,7 @@ import { User } from '@euclia/accounts-client/dist/models/user';
 import {
   OidcClientNotification,
   OidcSecurityService,
+  UserDataResult,
 } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
 
@@ -54,8 +55,8 @@ export class ModelIdComponent implements OnInit, OnDestroy {
   newTag: string;
   addTagB: boolean = false;
 
-  userData$: Observable<any>;
   trainedMeta: Object;
+  private userData$: Observable<UserDataResult>;
 
   constructor(
     private rightsService: RightsService,
@@ -92,7 +93,7 @@ export class ModelIdComponent implements OnInit, OnDestroy {
       try {
         this.trainedMeta = model.additionalInfo['fromUser']['meta'];
       } catch (e) {
-        e;
+        console.error(e);
       }
 
       this.userApi

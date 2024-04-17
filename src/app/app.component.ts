@@ -1,24 +1,15 @@
-import { AfterViewInit, Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { DialogsService } from './dialogs/dialogs.service';
-import { FormControl, Validators } from '@angular/forms';
 import { OnInit, OnDestroy } from '@angular/core';
-import { Credentials } from './ui-models/credentials';
 import { LoginDialogComponent } from './dialogs/login-logout-dialog/login-dialog.component';
 import { LogoutDialogComponent } from './dialogs/login-logout-dialog/logout-dialog.component';
-// import { AccountDialogComponent } from './dialogs/account-dialog/account-dialog.component'
 import { MatDialog } from '@angular/material/dialog';
 import { SessionService } from './session/session.service';
 import { Subscription, Observable } from 'rxjs';
-import { element } from 'protractor';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
-import {
-  OidcSecurityService,
-  OidcClientNotification,
-} from 'angular-auth-oidc-client';
+import { OidcSecurityService, UserDataResult } from 'angular-auth-oidc-client';
 import { map } from 'rxjs/operators';
-
-// import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -32,10 +23,9 @@ export class AppComponent implements OnInit, OnDestroy {
   isAuthorizedSubscription: Subscription;
   isAuthorized: boolean;
 
-  userData$: Observable<any>;
   isAuthenticated$: Observable<boolean>;
   checkSessionChanged$: Observable<boolean>;
-  checkSessionChanged: any;
+  private userData$: Observable<UserDataResult>;
 
   constructor(
     public oidcSecurityService: OidcSecurityService,
@@ -76,12 +66,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isAuthorizedSubscription =
       this.oidcSecurityService.isAuthenticated$.subscribe(
         ({ isAuthenticated }) => {
-          if (isAuthenticated === true) {
+          if (isAuthenticated) {
             this.isAuthorized = true;
             this.loggedIn = true;
-            this.userData$.subscribe((d) => {
-              if (d) {
-                this.sessionService.setUserData(d);
+            this.userData$.subscribe((userDataResult) => {
+              if (userDataResult) {
+                this.sessionService.setUserData(userDataResult);
 
                 if (localStorage.getItem('goToModel')) {
                   var modelId = localStorage.getItem('goToModel');

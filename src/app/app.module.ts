@@ -67,6 +67,7 @@ import {
   OidcSecurityService,
   OidcConfigService,
   LogLevel,
+  AbstractSecurityStorage,
 } from 'angular-auth-oidc-client';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { MarkdownModule } from 'ngx-markdown';
@@ -118,6 +119,7 @@ import { ChartComponentComponent } from './base/components/chart-component/chart
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from '../environments/environment';
+import { AuthLocalStorage } from './session/security.storage';
 
 // import { EucliaAccounts } from '@euclia/accounts-client';
 /**
@@ -238,7 +240,6 @@ export class MaterialModule {}
         maxIdTokenIatOffsetAllowedInSeconds: 120,
         historyCleanupOff: true,
         // autoUserinfo: true,
-        // storage: localStorage,
       },
     }),
     CommonModule,
@@ -302,7 +303,11 @@ export class MaterialModule {}
     MultiLineComponent,
   ],
   bootstrap: [AppComponent],
-  providers: [SessionService, OidcConfigService],
+  providers: [
+    SessionService,
+    OidcConfigService,
+    { provide: AbstractSecurityStorage, useClass: AuthLocalStorage },
+  ],
   entryComponents: [],
 })
 export class AppModule {

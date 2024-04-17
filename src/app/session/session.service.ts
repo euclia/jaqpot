@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { Algorithm } from '../jaqpot-client/model/algorithm';
 import { Dataset } from '../jaqpot-client/model/dataset';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { OidcSecurityService, UserDataResult } from 'angular-auth-oidc-client';
 
 @Injectable()
 export class SessionService {
@@ -48,10 +48,12 @@ export class SessionService {
     return this._userData;
   }
 
-  setUserData(userData: any) {
+  setUserData(userDataResult: UserDataResult) {
+    const userData = userDataResult.userData;
+    const { email, sub } = userData;
     this._userData = userData;
-    this.userEmail = userData.email;
-    this.userid = userData.sub;
+    this.userEmail = email;
+    this.userid = sub;
   }
 
   getUserName(): Observable<any> {
