@@ -16,8 +16,6 @@ export class ModelFeaturesComponent implements OnChanges, AfterViewInit {
 
   @Input() viewOrEdit: string;
 
-  // @Input() saveEmit:string;
-
   @Output() modelChanged = new EventEmitter<any>();
 
   @Output() featsChangedArray = new EventEmitter<any>();
