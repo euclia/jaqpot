@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { interval } from 'rxjs/internal/observable/interval';
+import { Component, OnInit } from '@angular/core';
 import { startWith, switchMap } from 'rxjs/operators';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { Notification } from '../../jaqpot-client/model/notification';
@@ -9,7 +8,7 @@ import { UserService } from '../../jaqpot-client/api/user.service';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { ModelApiService } from '../../jaqpot-client/api/model.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { interval, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
@@ -17,11 +16,10 @@ import { environment } from '../../../environments/environment';
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css'],
-  // encapsulation: ViewEncapsulation.None,
 })
 export class NotificationComponent implements OnInit {
   notificationCount: number;
-  notifications: Notification[] = new Array();
+  notifications: Notification[] = [];
 
   constructor(
     private notificationService: NotificationService,
