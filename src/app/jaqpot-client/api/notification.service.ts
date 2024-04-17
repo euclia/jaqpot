@@ -32,7 +32,6 @@ export class NotificationService extends BaseClient<Notification> {
 
   constructor(
     http: HttpClient,
-    public sessionServise: SessionService,
     public dialogsService: DialogsService,
     public oidcSecurityService: OidcSecurityService,
   ) {

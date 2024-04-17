@@ -18,7 +18,6 @@ export class FeatureApiService extends BaseClient<Feature> {
 
   constructor(
     http: HttpClient,
-    public sessionServise: SessionService,
     public dialogsService: DialogsService,
     public oidcSecurityService: OidcSecurityService,
   ) {

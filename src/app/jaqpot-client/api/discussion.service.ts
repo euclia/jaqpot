@@ -9,17 +9,12 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class DiscussionService extends BaseClient<Discussion> {
-  private _privateBasePath: string;
+  private readonly _privateBasePath: string;
 
-  private discussion: Discussion;
   private _discussionBase: string;
-  // private _getUsers : string;
-  // private _getUserID : string;
-  // private _getUserIdQuota : string;
 
   constructor(
     public http: HttpClient,
-    public sessionServise: SessionService,
     public dialogsService: DialogsService,
     public oidcSecurityService: OidcSecurityService,
   ) {

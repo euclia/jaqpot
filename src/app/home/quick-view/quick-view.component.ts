@@ -21,7 +21,7 @@ export class QuickViewComponent implements OnChanges {
   owner: User;
 
   constructor(
-    private dialogsServise: DialogsService,
+    private dialogsService: DialogsService,
     private userApi: UserService,
     private orgsApi: OrganizationService,
   ) {}
@@ -45,10 +45,10 @@ export class QuickViewComponent implements OnChanges {
   }
 
   openUser() {
-    this.dialogsServise.quickUser(this.userApi, this.owner);
+    this.dialogsService.quickUser(this.userApi, this.owner);
   }
 
   openOrg(org) {
-    this.dialogsServise.onOrganizationView(org, this.orgsApi, true);
+    this.dialogsService.onOrganizationView(org, this.orgsApi, true);
   }
 }

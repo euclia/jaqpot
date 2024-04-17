@@ -14,7 +14,6 @@ export class ReportApiService extends BaseClient<Report> {
 
   constructor(
     http: HttpClient,
-    public sessionServise: SessionService,
     public dialogsService: DialogsService,
     public oidcSecurityService: OidcSecurityService,
   ) {

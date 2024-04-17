@@ -18,7 +18,7 @@ export class ValidationApiService extends BaseClient<Task> {
 
   constructor(
     http: HttpClient,
-    public sessionServise: SessionService,
+    public sessionService: SessionService,
     public dialogsService: DialogsService,
     public oidcSecurityService: OidcSecurityService,
   ) {

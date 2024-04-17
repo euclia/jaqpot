@@ -26,7 +26,6 @@ export class SearchApiService {
 
   constructor(
     private http: HttpClient,
-    private sessionServise: SessionService,
     private dialogsService: DialogsService,
     private oidcSecurityService: OidcSecurityService,
   ) {
