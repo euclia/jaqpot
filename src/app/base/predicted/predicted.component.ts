@@ -1,17 +1,9 @@
-import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
-import {
-  Dataset,
-  Feature,
-  FeatureInfo,
-  DataEntry,
-  MetaInfo,
-} from '../../jaqpot-client';
-import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
+import { AfterViewInit, Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { DataEntry, Dataset, Feature, FeatureInfo, MetaInfo } from '../../jaqpot-client';
 import { MatPaginator } from '@angular/material/paginator';
-import { Subscription, merge, of, BehaviorSubject } from 'rxjs';
-import { startWith, switchMap, catchError, map } from 'rxjs/operators';
+import { BehaviorSubject, merge, of, Subscription } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
-import { DatasetFactoryService } from '../../jaqpot-client/factories/dataset-factory.service';
 import { DatasetToViewdataService } from '../../services/dataset-to-viewdata.service';
 import { DatasourceToCsvService } from '../../services/table-to-csv.service';
 
@@ -20,7 +12,7 @@ import { DatasourceToCsvService } from '../../services/table-to-csv.service';
   templateUrl: './predicted.component.html',
   styleUrls: ['./predicted.component.css'],
 })
-export class PredictedComponent implements OnChanges {
+export class PredictedComponent implements OnChanges, AfterViewInit {
   @Input() predictedDataset: Dataset;
 
   displayedColumns: string[] = [];

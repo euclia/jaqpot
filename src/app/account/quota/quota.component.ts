@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from '../../jaqpot-client';
 
 @Component({
@@ -6,10 +6,8 @@ import { User } from '../../jaqpot-client';
   templateUrl: './quota.component.html',
   styleUrls: ['./quota.component.css'],
 })
-export class QuotaComponent implements OnInit {
+export class QuotaComponent {
   @Input() user: User;
 
   constructor() {}
-
-  ngOnInit() {}
 }

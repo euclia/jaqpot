@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Dataset, Feature, DataEntry, FeatureInfo } from '../../jaqpot-client';
+import { DataEntry, Dataset, Feature, FeatureInfo } from '../../jaqpot-client';
 import { DatasetFactoryService } from '../../jaqpot-client/factories/dataset-factory.service';
 import { DatasetToViewdataService } from '../../services/dataset-to-viewdata.service';
 import { FeatureFactoryService } from '../../jaqpot-client/factories/feature-factory.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { environment } from '../../../environments/environment';
@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './add-dataset-dialog.component.html',
   styleUrls: ['./add-dataset-dialog.component.css'],
 })
-export class AddDatasetDialogComponent implements OnInit {
+export class AddDatasetDialogComponent implements OnInit, OnDestroy {
   csv: string;
   file_name: string;
   dataset_id = '';

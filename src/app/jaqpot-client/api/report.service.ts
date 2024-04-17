@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import '../rxjs-operators';
-import { SessionService } from '../../session/session.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { HttpClient } from '@angular/common/http';
 import { BaseClient } from './base.client';
@@ -32,7 +31,7 @@ export class ReportApiService extends BaseClient<Report> {
 //  * Do not edit the class manually.
 //  */
 
-// /* tslint:disable:no-unused-variable member-ordering */
+/* eslint-disable @typescript-eslint/member-ordering */
 
 // import { Inject, Injectable, Optional }                      from '@angular/core';
 // import { Http, Headers, URLSearchParams }                    from '@angular/http';

@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Algorithm } from '../../jaqpot-client/model/algorithm';
 
@@ -7,12 +7,10 @@ import { Algorithm } from '../../jaqpot-client/model/algorithm';
   templateUrl: './add-algorithm-dialog.component.html',
   styleUrls: ['./add-algorithm-dialog.component.css'],
 })
-export class AddAlgorithmDialogComponent implements OnInit {
+export class AddAlgorithmDialogComponent {
   private algo = {} as Algorithm;
 
   constructor(
     @Optional() public dialogRef: MatDialogRef<AddAlgorithmDialogComponent>,
   ) {}
-
-  ngOnInit() {}
 }

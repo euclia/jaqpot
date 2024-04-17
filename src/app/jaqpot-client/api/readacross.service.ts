@@ -10,7 +10,7 @@
 //  * Do not edit the class manually.
 //  */
 
-// /* tslint:disable:no-unused-variable member-ordering */
+/* eslint-disable @typescript-eslint/member-ordering */
 
 // import { Inject, Injectable, Optional }                      from '@angular/core';
 // import { Http, Headers, URLSearchParams }                    from '@angular/http';

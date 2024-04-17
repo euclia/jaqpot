@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Notification } from '../../jaqpot-client/model/notification';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
@@ -12,7 +12,7 @@ import { UserService } from '../../jaqpot-client/api/user.service';
   templateUrl: './view-notifs.component.html',
   styleUrls: ['./view-notifs.component.css'],
 })
-export class ViewNotifsComponent implements OnChanges {
+export class ViewNotifsComponent {
   @Input() notifications_to_view: Notification[];
   @Input() category: string;
 
@@ -26,8 +26,6 @@ export class ViewNotifsComponent implements OnChanges {
     private modelService: ModelApiService,
     private userService: UserService,
   ) {}
-
-  ngOnChanges() {}
 
   openNotifDialog(notif) {
     this.dialogsService

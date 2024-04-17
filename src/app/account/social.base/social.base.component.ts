@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../jaqpot-client';
-import { UserService } from '../../jaqpot-client/api/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -9,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './social.base.component.html',
   styleUrls: ['./social.base.component.css'],
 })
-export class SocialBaseComponent implements OnInit {
+export class SocialBaseComponent {
   public urlForm: FormGroup;
 
   public websiteURL: FormControl;
@@ -27,7 +26,7 @@ export class SocialBaseComponent implements OnInit {
 
   @Input() user: User;
 
-  @Output() onUpdateUser = new EventEmitter<User>();
+  @Output() userUpdated = new EventEmitter<User>();
 
   constructor(public snackBar: MatSnackBar) {
     this.websiteURL = new FormControl(
@@ -53,8 +52,6 @@ export class SocialBaseComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
-
   editWebsiteUrl() {
     this.websiteURL.enable();
     this.editWeb = false;
@@ -64,7 +61,7 @@ export class SocialBaseComponent implements OnInit {
     this.editWeb = true;
     if (this.websiteURL.valid) {
       this.user.website = this.websiteURL.value;
-      this.onUpdateUser.emit(this.user);
+      this.userUpdated.emit(this.user);
     } else {
       this.openSnackBar('Invalid Website Url. Please check ', 'OK');
     }
@@ -73,7 +70,7 @@ export class SocialBaseComponent implements OnInit {
 
   deleteWebsiteUrl() {
     this.user.website = null;
-    this.onUpdateUser.emit(this.user);
+    this.userUpdated.emit(this.user);
   }
 
   editGithubUrl() {
@@ -85,7 +82,7 @@ export class SocialBaseComponent implements OnInit {
     this.editGithub = true;
     if (this.githubURL.valid) {
       this.user.github = this.githubURL.value;
-      this.onUpdateUser.emit(this.user);
+      this.userUpdated.emit(this.user);
     } else {
       this.openSnackBar('Invalid Github Url. Please check ', 'OK');
     }
@@ -94,7 +91,7 @@ export class SocialBaseComponent implements OnInit {
 
   deleteGithubUrl() {
     this.user.github = null;
-    this.onUpdateUser.emit(this.user);
+    this.userUpdated.emit(this.user);
   }
 
   editLinkedinUrl() {
@@ -106,7 +103,7 @@ export class SocialBaseComponent implements OnInit {
     this.editLinkedin = true;
     if (this.linkedinURL.valid) {
       this.user.linkedin = this.linkedinURL.value;
-      this.onUpdateUser.emit(this.user);
+      this.userUpdated.emit(this.user);
     } else {
       this.openSnackBar('Invalid LinkedIn Url. Please check ', 'OK');
     }
@@ -115,7 +112,7 @@ export class SocialBaseComponent implements OnInit {
 
   deleteLinkedinUrl() {
     this.user.linkedin = null;
-    this.onUpdateUser.emit(this.user);
+    this.userUpdated.emit(this.user);
   }
 
   editTwitterUrl() {
@@ -127,7 +124,7 @@ export class SocialBaseComponent implements OnInit {
     this.editTwitter = true;
     if (this.twitterURL.valid) {
       this.user.twitter = this.twitterURL.value;
-      this.onUpdateUser.emit(this.user);
+      this.userUpdated.emit(this.user);
     } else {
       this.openSnackBar('Invalid Twitter Url. Please check ', 'OK');
     }
@@ -136,7 +133,7 @@ export class SocialBaseComponent implements OnInit {
 
   deleteTwitterUrl() {
     this.user.twitter = null;
-    this.onUpdateUser.emit(this.user);
+    this.userUpdated.emit(this.user);
   }
 
   openSnackBar(message: string, action: string) {

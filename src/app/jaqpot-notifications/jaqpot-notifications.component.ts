@@ -36,11 +36,7 @@ export class JaqpotNotificationsComponent implements OnInit {
       });
   }
 
-  ngAfterViewInit() {
-    // this.paginator = this.paginator;
-  }
-
-  openInvitations(event) {
+  openInvitations() {
     this.category = 'Invitation';
     this.loading = true;
     this._notificationApi

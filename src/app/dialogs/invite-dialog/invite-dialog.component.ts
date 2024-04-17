@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../../jaqpot-client/api/user.service';
-import {
-  FormControl,
-  Validators,
-} from '../../../../node_modules/@angular/forms';
-import { User, MetaInfo } from '../../jaqpot-client';
+import { FormControl, Validators } from '../../../../node_modules/@angular/forms';
+import { User } from '../../jaqpot-client';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
 import { Notification } from '../../jaqpot-client/model/notification';
-import { OidcSecurityService } from '../../../../node_modules/angular-auth-oidc-client';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { SessionService } from '../../session/session.service';
 import { Organization } from '@euclia/accounts-client/dist/models/models';
@@ -17,7 +13,7 @@ import { Organization } from '@euclia/accounts-client/dist/models/models';
   templateUrl: './invite-dialog.component.html',
   styleUrls: ['./invite-dialog.component.css'],
 })
-export class InviteDialogComponent implements OnInit {
+export class InviteDialogComponent {
   userService: UserService;
   notifFactory: NotificationFactoryService;
   notificationService: NotificationService;
@@ -42,8 +38,6 @@ export class InviteDialogComponent implements OnInit {
       Validators.required,
     );
   }
-
-  ngOnInit() {}
 
   inputChanged(username: string) {
     if (username.length > 1) {

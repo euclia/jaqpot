@@ -12,23 +12,17 @@
  * Do not edit the class manually.
  */
 
-/* tslint:disable:no-unused-variable member-ordering */
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/member-ordering */
 
-import { Inject, Injectable, Optional } from '@angular/core';
-import { map, filter, catchError, mergeMap, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
 import '../rxjs-operators';
 
 // import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { SessionService } from '../../session/session.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { BaseClient } from './base.client';
 import { HttpClient } from '@angular/common/http';
-import {
-  EucliaAccountsFactory,
-  IEucliaAccounts,
-} from '@euclia/accounts-client/dist/EucliaAccounts';
+import { EucliaAccountsFactory, IEucliaAccounts } from '@euclia/accounts-client/dist/EucliaAccounts';
 import { Organization } from '@euclia/accounts-client/dist/models/models';
 import { environment } from '../../../environments/environment';
 

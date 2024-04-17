@@ -1,15 +1,8 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  Inject,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AlgorithmService } from '../../jaqpot-client/api/algorithm.service';
 import { Algorithm } from '../../jaqpot-client';
-import { startWith, scan, switchMap, map, catchError } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { SessionService } from '../../session/session.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { merge } from 'rxjs';
 
@@ -18,7 +11,9 @@ import { merge } from 'rxjs';
   templateUrl: './algorithms-list.component.html',
   styleUrls: ['./algorithms-list.component.css'],
 })
-export class AlgorithmsListComponent implements AfterViewInit {
+export class AlgorithmsListComponent
+  implements AfterViewInit, OnInit, OnDestroy
+{
   public _algorithms: Algorithm[];
   public _count: string;
   // private subscription:Subscription;

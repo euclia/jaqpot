@@ -1,16 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { Component } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialogRef } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-choose-x-y',
   templateUrl: './choose-x-y.component.html',
   styleUrls: ['./choose-x-y.component.css'],
 })
-export class ChooseXYComponent implements OnInit {
+export class ChooseXYComponent {
   data: string[];
   adminUsers: any;
   xData: string[] = [];
@@ -19,10 +16,6 @@ export class ChooseXYComponent implements OnInit {
   dataChose = {};
 
   constructor(public thisDialogRef: MatDialogRef<ChooseXYComponent>) {}
-
-  ngOnInit() {
-    // console.log(this.data)
-  }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {

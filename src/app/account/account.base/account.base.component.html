@@ -67,7 +67,7 @@
           <app-social-base
             *ngIf="user"
             [user]="user"
-            (onUpdateUser)="onUpdated($event)"
+            (userUpdated)="onUpdated($event)"
           ></app-social-base>
         </mat-card-content>
       </mat-card>

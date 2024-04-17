@@ -10,27 +10,21 @@
 //  * Do not edit the class manually.
 //  */
 
-// /* tslint:disable:no-unused-variable member-ordering */
+/* eslint-disable @typescript-eslint/member-ordering */
 
-import { Inject, Injectable, Optional } from '@angular/core';
-import { map, filter, catchError, mergeMap, tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import '../rxjs-operators';
 
 import { Algorithm } from '../model/algorithm';
 import { ErrorReport } from '../model/errorReport';
-import { Task } from '../model/task';
 
 // import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { SessionService } from '../../session/session.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import {
-  HttpHeaders,
-  HttpParams,
-  HttpClient,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 @Injectable()

@@ -1,19 +1,15 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Dataset } from '../../jaqpot-client/model/dataset';
-import { Subscription, BehaviorSubject, merge } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
-import { DatasetService } from '../../jaqpot-client/api/dataset.service';
-import { SessionService } from '../../session/session.service';
-import { DialogsService } from '../../dialogs/dialogs.service';
 import { Router } from '@angular/router';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-dataset-list',
   templateUrl: './dataset-list.component.html',
   styleUrls: ['./dataset-list.component.css'],
 })
-export class DatasetListComponent implements OnInit {
+export class DatasetListComponent {
   private _dataset: Dataset;
 
   public visible: boolean = true;
@@ -31,72 +27,9 @@ export class DatasetListComponent implements OnInit {
   isLoadingResults = false;
   isRateLimitReached = false;
 
-  constructor(
-    private _dataService: DatasetService,
-    private _sessionService: SessionService,
-    private _dialogsService: DialogsService,
-    private _router: Router,
-  ) {
-    // this.subscription = this._sessionService.getDataset()
-    //     .subscribe(dataset =>{
-    //       if(dataset === undefined){
-    //         this.visible = true;
-    //       }else{
-    //         this.visible = false;
-    //       }
-    //     })
-  }
+  constructor(private _router: Router) {}
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  ngOnInit() {
-    // this.getFeaturedCount();
-    // this.data_in = 'Featured';
-  }
-
-  ngAfterViewInit() {
-    // merge(this.data_to_fetch, this.paginator.page)
-    //   ,startWith(null)
-    //   ,switchMap(() => {
-    //     this.isLoadingResults = true;
-    //     if(this.data_in === 'Featured'){
-    //       this.getFeaturedCount();
-    //       return this._dataService.getFeaturedDatasets(
-    //         this.paginator._pageIndex * this.paginator.pageSize,
-    //         this.paginator.pageSize);
-    //     }else{
-    //       this.getAllCount();
-    //       return this._dataService.getAllDatasets(
-    //         this.paginator._pageIndex * this.paginator.pageSize,
-    //         this.paginator.pageSize);
-    //     }
-    //     }),map(data => {
-    //       this.isLoadingResults = false;
-    //       this.isRateLimitReached = false;
-    //       this.resultsLength = Number(this._count);
-    //       return data
-    //     })
-    // .catch(() => {
-    //   this.isLoadingResults = false;
-    //   this.isRateLimitReached = true;
-    //   return Observable.of([]);
-    // })
-    // ,subscribe(data => this.dataSource.data = data);
-  }
-
-  // getFeaturedCount(){
-  //   this._dataService.getFeaturedDatasetCount()
-  //   .subscribe(res => {
-  //     this._count = res.headers.get('total');
-  //   })
-  // }
-
-  // getAllCount(){
-  //   this._dataService.getAllDatasetCount()
-  //     .subscribe(res => {
-  //       this._count = res.headers.get('total');
-  //     })
-  // }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace

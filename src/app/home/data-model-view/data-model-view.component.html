@@ -26,7 +26,7 @@
             </div>
             <ng-template #no_image>
               <img
-                *ngIf="item.type == 'Dataset'; else model_icon"
+                *ngIf="item.type === 'Dataset'; else model_icon"
                 class="entity_image"
                 src="assets/dataset3.png"
               />
@@ -96,7 +96,7 @@
         class="list_item"
         (click)="clicked(item)"
       >
-        <mat-icon mat-list-icon *ngIf="item.type == 'Dataset'; else model_icon"
+        <mat-icon mat-list-icon *ngIf="item.type === 'Dataset'; else model_icon"
           >description</mat-icon
         >
         <ng-template #model_icon>

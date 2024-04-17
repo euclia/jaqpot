@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Algorithm, Dataset } from '../jaqpot-client';
 import { SessionService } from '../session/session.service';
@@ -10,7 +10,7 @@ import { SessionService } from '../session/session.service';
   encapsulation: ViewEncapsulation.None,
   preserveWhitespaces: false,
 })
-export class BaseComponent implements OnInit {
+export class BaseComponent {
   active = 'home';
 
   subscription: Subscription;
@@ -21,27 +21,6 @@ export class BaseComponent implements OnInit {
   notReady: boolean = true;
 
   constructor(private _sessionService: SessionService) {}
-
-  ngOnInit() {
-    // this.subscription = this._sessionService
-    // .getModelingAlgorithm().subscribe( algo => {
-    //   if(algo){
-    //     this.algoIsNotChosen = false;
-    //   }else{
-    //     this.algoIsNotChosen = true;
-    //   }
-    //   this.algoForModel = algo;
-    // })
-    // this.subscription = this._sessionService
-    // .getModelingDataset().subscribe( dataset =>{
-    //   if(dataset){
-    //     this.datasetIsNotChosen = false;
-    //   }else{
-    //     this.datasetIsNotChosen = true;
-    //   }
-    //   this.datasetForModel = dataset;
-    // })
-  }
 
   changeActive(string) {
     this.active = string;

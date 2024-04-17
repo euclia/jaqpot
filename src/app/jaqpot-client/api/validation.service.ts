@@ -1,14 +1,13 @@
-import { throwError as observableThrowError, Observable } from 'rxjs';
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import '../rxjs-operators';
-import { map, filter, catchError, mergeMap, tap } from 'rxjs/operators';
-import { Dataset } from '../model/dataset';
+import { catchError, tap } from 'rxjs/operators';
 import { SessionService } from '../../session/session.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BaseClient } from './base.client';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { MetaInfo, Model, Task } from '../model/models';
+import { Task } from '../model/models';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
@@ -64,7 +63,7 @@ export class ValidationApiService extends BaseClient<Task> {
 //  * Do not edit the class manually.
 //  */
 
-// /* tslint:disable:no-unused-variable member-ordering */
+/* eslint-disable @typescript-eslint/member-ordering */
 
 // import { Inject, Injectable, Optional }                      from '@angular/core';
 // import { Http, Headers, URLSearchParams }                    from '@angular/http';

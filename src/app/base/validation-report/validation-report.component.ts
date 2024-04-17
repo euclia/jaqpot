@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Report } from '../../jaqpot-client';
 
 @Component({
@@ -6,10 +6,8 @@ import { Report } from '../../jaqpot-client';
   templateUrl: './validation-report.component.html',
   styleUrls: ['./validation-report.component.css'],
 })
-export class ValidationReportComponent implements OnInit {
+export class ValidationReportComponent {
   @Input() report: Report;
 
   constructor() {}
-
-  ngOnInit() {}
 }

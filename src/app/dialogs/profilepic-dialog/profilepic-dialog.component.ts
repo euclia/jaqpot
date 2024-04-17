@@ -1,13 +1,12 @@
-import { Component, OnInit, Optional, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImageCropperModule } from 'ngx-image-cropper';
+import { Component, Inject, Optional } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profilepic-dialog',
   templateUrl: './profilepic-dialog.component.html',
   styleUrls: ['./profilepic-dialog.component.css'],
 })
-export class ProfilepicDialogComponent implements OnInit {
+export class ProfilepicDialogComponent {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   loadImageFailed: any = '';
@@ -19,8 +18,6 @@ export class ProfilepicDialogComponent implements OnInit {
     @Optional() public dialogRef: MatDialogRef<ProfilepicDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public profPic: string,
   ) {}
-
-  ngOnInit() {}
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;

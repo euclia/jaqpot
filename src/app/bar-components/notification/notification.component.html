@@ -18,10 +18,10 @@
 </button>
 <mat-menu #notsshortmenu="matMenu" class="notif-menu">
   <div *ngFor="let notif of notifications">
-    <div *ngIf="notif.type == 'INVITATION'">
+    <div *ngIf="notif.type === 'INVITATION'">
       <button mat-menu-item (click)="openNotifDialog(notif)">
         <mat-icon>group</mat-icon>
-        <span *ngIf="notif.viewed == false; else no_bold">
+        <span *ngIf="notif.viewed === false; else no_bold">
           <b> Invitation to join organization </b>
           <!--{{notif.invitationTo}}-->
         </span>
@@ -31,10 +31,10 @@
         <!--{{notif.invitationTo}}-->
       </button>
     </div>
-    <div *ngIf="notif.type == 'SHARE'">
+    <div *ngIf="notif.type === 'SHARE'">
       <button mat-menu-item (click)="openNotifDialog(notif)">
         <mat-icon>share</mat-icon>
-        <span *ngIf="notif.viewed == false; else no_bold">
+        <span *ngIf="notif.viewed === false; else no_bold">
           <b> Shared {{ notif.entityShared.split('/')[0] }} </b>
           <!-- through {{notif.organizationShared}} -->
         </span>
@@ -46,10 +46,10 @@
         >
       </button>
     </div>
-    <div *ngIf="notif.type == 'AFFILIATION'">
+    <div *ngIf="notif.type === 'AFFILIATION'">
       <button mat-menu-item (click)="openNotifDialog(notif)">
         <mat-icon>cast</mat-icon>
-        <span *ngIf="notif.viewed == false; else no_bold">
+        <span *ngIf="notif.viewed === false; else no_bold">
           <b>
             Affiliation for {{ notif.affiliatedOrg }} through
             {{ notif.organizationShared }}
@@ -63,10 +63,10 @@
         >
       </button>
     </div>
-    <div *ngIf="notif.type == 'BROKENAFFILIATION'">
+    <div *ngIf="notif.type === 'BROKENAFFILIATION'">
       <button mat-menu-item (click)="openNotifDialog(notif)">
         <mat-icon>voice_over_off</mat-icon>
-        <span *ngIf="notif.viewed == false; else no_bold">
+        <span *ngIf="notif.viewed === false; else no_bold">
           <b> Broken affiliation for {{ notif.organizationShared }} </b>
         </span>
         <ng-template #no_bold
@@ -76,10 +76,10 @@
         >
       </button>
     </div>
-    <div *ngIf="notif.type == 'FYI'">
+    <div *ngIf="notif.type === 'FYI'">
       <button mat-menu-item (click)="openNotifDialog(notif)">
         <mat-icon>info</mat-icon>
-        <span *ngIf="notif.viewed == false; else no_bold">
+        <span *ngIf="notif.viewed === false">
           <b> {{ notif.body }} </b>
         </span>
       </button>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { OrganizationService } from '../../../jaqpot-client/api/organization.service';
 import { NotificationService } from '../../../jaqpot-client/api/notification.service';
 import { UserService } from '../../../jaqpot-client/api/user.service';
@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './fyi-notif.component.html',
   styleUrls: ['./fyi-notif.component.css'],
 })
-export class FyiNotifComponent implements OnInit {
+export class FyiNotifComponent {
   _notification: Notification;
   _organizationApi: OrganizationService;
   _notificationApi: NotificationService;
@@ -23,8 +23,6 @@ export class FyiNotifComponent implements OnInit {
   openedFrom: string;
 
   constructor(public snackBar: MatSnackBar) {}
-
-  ngOnInit() {}
 
   resolveNotification() {
     this._notification.viewed = true;
