@@ -48,3 +48,6 @@ Thumbs.db
 >>>>>>> Stashed changes
 pkg/
 bin/gopls
+
+# Ignore cache created with the Angular CLI.
+.angular/

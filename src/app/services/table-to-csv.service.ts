@@ -26,16 +26,12 @@ export class DatasourceToCsvService {
     });
     var url = window.URL.createObjectURL(blob);
     const datasetName = filename + '.csv';
-    if (navigator.msSaveOrOpenBlob) {
-      navigator.msSaveBlob(blob, datasetName);
-    } else {
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = datasetName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = datasetName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }
 
@@ -79,22 +75,17 @@ export class DatasourceToCsvService {
 
     let blob = new Blob([this.csv], { type: 'text/csv;charset=utf8;' });
 
-    if (navigator.msSaveBlob) {
-      let filename = this._options.filename.replace(/ /g, '_') + '.csv';
-      navigator.msSaveBlob(blob, filename);
-    } else {
-      let uri = 'data:attachment/csv;charset=utf-8,' + encodeURI(this.csv);
-      let link = document.createElement('a');
+    let uri = 'data:attachment/csv;charset=utf-8,' + encodeURI(this.csv);
+    let link = document.createElement('a');
 
-      link.href = URL.createObjectURL(blob);
+    link.href = URL.createObjectURL(blob);
 
-      link.setAttribute('visibility', 'hidden');
-      link.download = this._options.filename.replace(/ /g, '_') + '.csv';
+    link.setAttribute('visibility', 'hidden');
+    link.download = this._options.filename.replace(/ /g, '_') + '.csv';
 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   /**
@@ -195,7 +186,7 @@ function toObject(val: any) {
  * @param {any}   target
  * @param {any[]} ...source
  */
-function objectAssign(target: any, ...source: any[]) {
+function objectAssign(target: any) {
   let from: any;
   let to = toObject(target);
   let symbols: any;

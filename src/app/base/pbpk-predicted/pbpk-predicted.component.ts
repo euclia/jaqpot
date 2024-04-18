@@ -1,5 +1,17 @@
-import { AfterViewInit, Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { DataEntry, Dataset, ErrorReport, Feature, FeatureInfo } from '../../jaqpot-client';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
+import {
+  DataEntry,
+  Dataset,
+  ErrorReport,
+  Feature,
+  FeatureInfo,
+} from '../../jaqpot-client';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { BehaviorSubject, merge, of, Subscription } from 'rxjs';
@@ -107,8 +119,8 @@ export class PbpkPredictedComponent implements OnChanges, AfterViewInit {
           this.isLoadingResults = true;
           this.data_available = false;
           this.isLoading = true;
-          let offset = 0;
-          let size = 30;
+          let offset: number;
+          let size: number;
           if (this.paginator['_isInitialized'] === false) {
             offset = 0;
             size = 30;
@@ -126,6 +138,7 @@ export class PbpkPredictedComponent implements OnChanges, AfterViewInit {
           return data;
         }),
         catchError((err) => {
+          console.error(err);
           return of([]);
         }),
       )
@@ -172,18 +185,14 @@ export class PbpkPredictedComponent implements OnChanges, AfterViewInit {
     csvData = csvData.concat('\n');
     // this.dataSource
 
-    var blob = new Blob([csvData], { type: 'text/csv' });
-    var url = window.URL.createObjectURL(blob);
-    if (navigator.msSaveOrOpenBlob) {
-      navigator.msSaveBlob(blob, 'dataset.csv');
-    } else {
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'dataset.csv';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dataset.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }
 
@@ -225,7 +234,6 @@ export class PbpkPredictedComponent implements OnChanges, AfterViewInit {
         if (da === true) {
           let xFeat: string[] = XYS['xData'];
           let yFeat: string[] = XYS['yData'];
-          let x = {};
           if (xFeat.length > 1 || yFeat.length === 0) {
             let init = {};
             let report = <ErrorReport>{};

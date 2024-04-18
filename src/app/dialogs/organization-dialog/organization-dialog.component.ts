@@ -1,10 +1,10 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { OidcSecurityService } from '../../../../node_modules/angular-auth-oidc-client';
-import { Router } from '../../../../node_modules/@angular/router';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { Router } from '@angular/router';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
 import { SessionService } from '../../session/session.service';
 import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-organization-dialog',

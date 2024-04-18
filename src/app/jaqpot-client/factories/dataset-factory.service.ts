@@ -1,19 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  Dataset,
-  FeatureInfo,
-  MetaInfo,
-  DataEntry,
-  Feature,
-} from '../model/models';
+import { DataEntry, Dataset, FeatureInfo, MetaInfo } from '../model/models';
 import { DatasetBuilderService } from '../builders/dataset-builder.service';
 import { SessionService } from '../../session/session.service';
-import { FeatureBuilderService } from '../builders/feature-builder.service';
 import { MetaBuilderService } from '../builders/meta-builder.service';
 import { FeatureInfoBuilderService } from '../builders/feature-info-builder.service';
 import { DataEntryBuilderService } from '../builders/data-entry-builder.service';
 import { FeatureAndValue } from '../../ui-models/featureAndValue';
-import { ConnectedPositionStrategy } from '@angular/cdk/overlay';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -95,7 +87,7 @@ export class DatasetFactoryService {
         _dataEntryBuilder.setEntryIdName(i.toString());
         _dataEntryBuilder.setOwnerUUID(this.sessionService.getUserId());
         let values: { [key: string]: any } = {};
-        for (var _i = 0; _i < data_to_enter.length; _i++) {
+        for (let _i = 0; _i < data_to_enter.length; _i++) {
           let featInfo: FeatureInfo = featureInfos[_i];
           if (isNaN(Number(data_to_enter[_i]))) {
             values[featInfo.key.toString()] = data_to_enter[_i];
@@ -110,9 +102,7 @@ export class DatasetFactoryService {
       i += 1;
     });
 
-    let dataset = _datasetBuilder.build();
-
-    return dataset;
+    return _datasetBuilder.build();
   }
 
   createDummyFromImageCsv(csv: string, id: string) {
@@ -178,7 +168,7 @@ export class DatasetFactoryService {
         _dataEntryBuilder.setOwnerUUID(this.sessionService.getUserId());
         data_to_enter.splice(id_index, 1);
         let values: { [key: string]: any } = {};
-        for (var _i = 0; _i < data_to_enter.length; _i++) {
+        for (let _i = 0; _i < data_to_enter.length; _i++) {
           let featInfo: FeatureInfo = featureInfos[_i];
           if (isNaN(Number(data_to_enter[_i]))) {
             values[featInfo.key.toString()] = data_to_enter[_i];
@@ -205,8 +195,7 @@ export class DatasetFactoryService {
       i += 1;
     });
 
-    let dataset = _datasetBuilder.build();
-    return dataset;
+    return _datasetBuilder.build();
   }
 
   public createPredictDataset(features: FeatureAndValue[]) {
@@ -219,7 +208,7 @@ export class DatasetFactoryService {
     dataset.meta = meta;
     dataset.dataEntry = [];
     let i = 0;
-    let dataEntry: DataEntry = <DataEntry>{};
+    let dataEntry: DataEntry;
     let _dataEntryBuilder = new DataEntryBuilderService();
     let values: { [key: string]: any } = {};
     let k = 0;
@@ -283,7 +272,7 @@ export class DatasetFactoryService {
     rows.forEach((row) => {
       let data: string[] = this.csvToArray(row);
       if (data.length > 0) {
-        let dataEntry: DataEntry = <DataEntry>{};
+        let dataEntry: DataEntry;
         let _dataEntryBuilder = new DataEntryBuilderService();
         let values: { [key: string]: any } = {};
         if (id === 'None') {
@@ -365,7 +354,7 @@ export class DatasetFactoryService {
     rows.forEach((row) => {
       let data: string[] = this.csvToArray(row);
       if (data.length > 0) {
-        let dataEntry: DataEntry = <DataEntry>{};
+        let dataEntry: DataEntry;
         let _dataEntryBuilder = new DataEntryBuilderService();
         let values: { [key: string]: any } = {};
         if (id === 'None') {
