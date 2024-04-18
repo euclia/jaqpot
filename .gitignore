@@ -40,11 +40,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-<<<<<<< Updated upstream
-.
 /pkg/
-=======
-./pkg/
->>>>>>> Stashed changes
 pkg/
 bin/gopls
+
+# Ignore cache created with the Angular CLI.
+.angular/

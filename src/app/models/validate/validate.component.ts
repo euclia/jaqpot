@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FeatureAndValue } from '../../ui-models/featureAndValue';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { DatasetFactoryService } from '../../jaqpot-client/factories/dataset-factory.service';
-import { Dataset, Task, Model, Report } from '../../jaqpot-client';
+import { Dataset, Model, Report, Task } from '../../jaqpot-client';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
-import { throwError, Subject } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { TaskApiService } from '../../jaqpot-client/api/task.service';
 import { delay } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -69,7 +69,7 @@ export class ValidateComponent implements OnInit {
       let reader: FileReader = new FileReader();
       let file: File = files.item(0);
       reader.readAsText(file);
-      reader.onload = (e) => {
+      reader.onload = () => {
         var _csv = reader.result;
         _csv = _csv.toString();
         const rows = _csv.split(/\r?\n/);
@@ -89,34 +89,10 @@ export class ValidateComponent implements OnInit {
         });
       };
     } else {
-      let i = 0;
-      let images_csv: string;
-      images_csv = 'id' + ',' + 'image' + '\n';
-      let images: { [key: string]: string } = {};
-      let images_num = files.length;
       let files2: File[] = [];
       Array.from(files).forEach((file: File) => {
         files2.push(file);
       });
-      // var options:NgxPicaResizeOptionsInterface = <NgxPicaResizeOptionsInterface>{};
-      // let aspectRatio:AspectRatioOptions = <AspectRatioOptions>{};
-      // options.aspectRatio = aspectRatio
-      // options.aspectRatio.keepAspectRatio = true;
-      // this._ngxPicaService.resizeImages(files2, 512, 512, options).subscribe((imageResized: File) => {
-      //   let reader: FileReader = new FileReader();
-      //   reader.readAsDataURL(imageResized);
-      //   reader.onload = (e) =>{
-      //     let image_to_csv = imageResized.name.toString() + "," + reader.result.toString() + "\n";
-      //     images_csv += image_to_csv
-      //     images[imageResized.name] = reader.result.toString();
-      //     i += 1;
-      //     if(images_num === i){
-      //       this.datasetForValidation = this._datasetFactory.matchValidateDataset(this.indepFeats,this.depFeats, images_csv, "None")
-      //       this.datasetFormated = true
-      //     }
-      //   }, (err: NgxPicaErrorInterface) => {
-      //     throw err.err;
-      // }})
     }
     this.dataInput.nativeElement.value = '';
   }
@@ -173,7 +149,7 @@ export class ValidateComponent implements OnInit {
             }
           }
         },
-        (error) => this.handleTaskError(error, taskId),
+        (error) => this.handleTaskError(error),
       );
   }
 
@@ -196,18 +172,14 @@ export class ValidateComponent implements OnInit {
       }
       i += 1;
     });
-    var blob = new Blob([csvData], { type: 'text/csv' });
-    var url = window.URL.createObjectURL(blob);
-    if (navigator.msSaveOrOpenBlob) {
-      navigator.msSaveBlob(blob, 'dataset.csv');
-    } else {
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'dataset.csv';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dataset.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }
 
@@ -229,7 +201,7 @@ export class ValidateComponent implements OnInit {
       });
   }
 
-  private handleTaskError(error: HttpErrorResponse, taskId) {
+  private handleTaskError(error: HttpErrorResponse) {
     console.log(error);
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
