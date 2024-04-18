@@ -149,7 +149,7 @@ export class ValidateComponent implements OnInit {
             }
           }
         },
-        (error) => this.handleTaskError(error, taskId),
+        (error) => this.handleTaskError(error),
       );
   }
 

@@ -40,7 +40,7 @@ export class DatasourceToCsvService {
 
     this.data = typeof DataJSON != 'object' ? JSON.parse(DataJSON) : DataJSON;
 
-    this._options = objectAssign({}, ConfigDefaults, config);
+    this._options = objectAssign({});
 
     if (this._options.filename) {
       this._options.filename = filename;
