@@ -13,4 +13,5 @@ export const environment: Env = {
   baseurl: 'http://localhost:4200',
   logLevel: 'debug',
   notificationPolling: false,
+  google_analytics_tag: 'G-VW0RC3JS55',
 };
