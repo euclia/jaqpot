@@ -13,4 +13,5 @@ export const environment: Env = {
   baseurl: 'https://app.jaqpot.org',
   logLevel: 'debug',
   notificationPolling: true,
+  google_analytics_tag: 'G-VW0RC3JS55',
 };

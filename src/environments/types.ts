@@ -11,4 +11,5 @@ export interface Env {
   stsServer: string;
   redirect_url: string;
   client_id: string;
+  google_analytics_tag: string;
 }

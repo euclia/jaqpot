@@ -111,6 +111,10 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { environment } from '../environments/environment';
 import { AuthLocalStorage } from './session/security.storage';
+import {
+  NgxGoogleAnalyticsModule,
+  NgxGoogleAnalyticsRouterModule,
+} from 'ngx-google-analytics';
 
 @NgModule({
   exports: [
@@ -188,6 +192,8 @@ export class MaterialModule {}
     HttpClientModule,
     FlexLayoutModule,
     MarkdownModule.forRoot(),
+    NgxGoogleAnalyticsModule.forRoot(environment.google_analytics_tag),
+    NgxGoogleAnalyticsRouterModule,
     AuthModule.forRoot({
       config: {
         authority: environment.stsServer,
@@ -268,7 +274,6 @@ export class MaterialModule {}
     OidcConfigService,
     { provide: AbstractSecurityStorage, useClass: AuthLocalStorage },
   ],
-  entryComponents: [],
 })
 export class AppModule {
   subscription: Subscription;
@@ -294,7 +299,7 @@ export class AppModule {
     }
 
     this.subscription = this.sessionService.getTheme().subscribe((theme) => {
-      var the = (<any>Object).values(theme);
+      const the = Object.values(theme);
       if (the[0] === 'dark-theme') {
         this.theme = 'dark-theme';
         this.overlayContainer
