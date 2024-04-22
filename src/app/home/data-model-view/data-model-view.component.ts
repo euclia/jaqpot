@@ -79,7 +79,7 @@ export class DataModelViewComponent implements OnChanges {
         break;
       }
       case 'Model': {
-        let route = '/model/' + item._id;
+        let route = `/model/${item._id}/overview`;
         this.router.navigate([route]);
         break;
       }

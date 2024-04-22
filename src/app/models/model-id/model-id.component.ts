@@ -80,7 +80,7 @@ export class ModelIdComponent implements OnInit {
     this.userData$ = this.oidcSecurityService.userData$;
 
     this.id = this.route.snapshot.params.id;
-    this.activeTab = this.getCurrentTabFromRoute();
+    this.activeTab = this.route.snapshot.firstChild.url[0].path;
     this.modelId = this.id;
     this.modelApi.getWithIdSecured(this.id).subscribe((model: Model) => {
       this.modelToSee = model;
@@ -124,10 +124,6 @@ export class ModelIdComponent implements OnInit {
         }
       },
     );
-  }
-
-  private getCurrentTabFromRoute() {
-    return this.route.snapshot.firstChild.url[0].path;
   }
 
   updatePhoto() {
