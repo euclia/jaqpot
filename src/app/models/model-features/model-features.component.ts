@@ -19,9 +19,7 @@ import { ModelApiService } from '../../jaqpot-client/api/model.service';
   templateUrl: './model-features.component.html',
   styleUrls: ['./model-features.component.css'],
 })
-export class ModelFeaturesComponent
-  implements OnInit, OnChanges, AfterViewInit
-{
+export class ModelFeaturesComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @Input() viewOrEdit: string;
@@ -43,8 +41,61 @@ export class ModelFeaturesComponent
   ) {}
 
   ngOnInit(): void {
-    this.modelService.currentModel$.subscribe((model) => {
+    this.modelService.currentModel$.subscribe(({ model }) => {
       this.modelToSee = model;
+      this.independentFeatures = [];
+      this.dependentFeatures = [];
+      if (this.modelToSee.independentFeatures.length < 40) {
+        this.modelToSee.independentFeatures.forEach((feat) => {
+          if (feat) {
+            const featId = feat.split('/')[feat.split('/').length - 1];
+            this.featureApi
+              .getWithIdSecured(featId)
+              .subscribe((featGot: Feature) => {
+                if (typeof featGot.ontologicalClasses == 'undefined') {
+                  featGot.ontologicalClasses = [];
+                }
+                if (typeof featGot.meta.descriptions == 'undefined') {
+                  featGot.meta.descriptions = [];
+                }
+                this.independentFeatures.push(featGot);
+              });
+          }
+        });
+      } else {
+        const indF: Map<string, string> =
+          this.modelToSee.additionalInfo['independentFeatures'];
+        for (const [key, value] of Object.entries(indF)) {
+          const featId = key.split('/')[key.split('/').length - 1];
+          const feature: Feature = {};
+          const meta: MetaInfo = {};
+          feature._id = featId;
+          meta.titles = [value];
+          meta.descriptions = [];
+          feature.ontologicalClasses = [];
+          feature.meta = meta;
+          this.independentFeatures.push(feature);
+        }
+      }
+
+      this.modelToSee.predictedFeatures.forEach((feat) => {
+        if (feat) {
+          if (!this.modelToSee.dependentFeatures.includes(feat)) {
+            const featId = feat.split('/')[feat.split('/').length - 1];
+            this.featureApi
+              .getWithIdSecured(featId)
+              .subscribe((featGot: Feature) => {
+                if (typeof featGot.ontologicalClasses == 'undefined') {
+                  featGot.ontologicalClasses = [];
+                }
+                if (typeof featGot.meta.descriptions == 'undefined') {
+                  featGot.meta.descriptions = [];
+                }
+                this.dependentFeatures.push(featGot);
+              });
+          }
+        }
+      });
     });
   }
 
@@ -54,99 +105,6 @@ export class ModelFeaturesComponent
     } else {
       this.edit = false;
     }
-  }
-
-  ngAfterViewInit() {
-    if (this.modelToSee.independentFeatures.length < 40) {
-      this.modelToSee.independentFeatures.forEach((feat) => {
-        if (feat) {
-          let featId = feat.split('/')[feat.split('/').length - 1];
-          this.featureApi
-            .getWithIdSecured(featId)
-            .subscribe((featGot: Feature) => {
-              if (typeof featGot.ontologicalClasses == 'undefined') {
-                featGot.ontologicalClasses = [];
-              }
-              if (typeof featGot.meta.descriptions == 'undefined') {
-                featGot.meta.descriptions = [];
-              }
-              this.independentFeatures.push(featGot);
-            });
-        }
-      });
-    } else {
-      let indF: Map<string, string> =
-        this.modelToSee.additionalInfo['independentFeatures'];
-      for (let [key, value] of Object.entries(indF)) {
-        let featId = key.split('/')[key.split('/').length - 1];
-        let feature: Feature = {};
-        let meta: MetaInfo = {};
-        feature._id = featId;
-        meta.titles = [value];
-        meta.descriptions = [];
-        feature.ontologicalClasses = [];
-        feature.meta = meta;
-        this.independentFeatures.push(feature);
-      }
-    }
-
-    this.modelToSee.predictedFeatures.forEach((feat) => {
-      if (feat) {
-        if (!this.modelToSee.dependentFeatures.includes(feat)) {
-          let featId = feat.split('/')[feat.split('/').length - 1];
-          this.featureApi
-            .getWithIdSecured(featId)
-            .subscribe((featGot: Feature) => {
-              if (typeof featGot.ontologicalClasses == 'undefined') {
-                featGot.ontologicalClasses = [];
-              }
-              if (typeof featGot.meta.descriptions == 'undefined') {
-                featGot.meta.descriptions = [];
-              }
-              this.dependentFeatures.push(featGot);
-            });
-        }
-      }
-    });
-  }
-
-  featureStream() {
-    let len = this.modelToSee.independentFeatures.length;
-    var temparray = this.modelToSee.independentFeatures.slice(0, len);
-    console.log(temparray.length);
-    console.log(len);
-    while (temparray.length > 0) {
-      var feat = temparray.pop();
-      let featId = feat.split('/')[feat.split('/').length - 1];
-      this.featureApi.getWithIdSecured(featId).subscribe((featGot: Feature) => {
-        if (typeof featGot.ontologicalClasses == 'undefined') {
-          featGot.ontologicalClasses = [];
-        }
-        if (typeof featGot.meta.descriptions == 'undefined') {
-          featGot.meta.descriptions = [];
-        }
-        this.independentFeatures.push(featGot);
-      });
-    }
-
-    // var i,j,temparray,chunk = 10;
-    // for (i=0,j=this.modelToSee.independentFeatures.length; i<j; i+=chunk) {
-    //     temparray = this.modelToSee.independentFeatures.slice(i,i+chunk);
-    //     temparray.forEach(feat => {
-    //       if(feat){
-    //         let featId = feat.split("/")[feat.split("/").length - 1]
-    //         this.featureApi.getWithIdSecured(featId).subscribe((featGot:Feature)=>{
-    //           if(typeof featGot.ontologicalClasses == 'undefined'){
-    //             featGot.ontologicalClasses = []
-    //           }
-    //           if(typeof featGot.meta.descriptions == 'undefined'){
-    //             featGot.meta.descriptions = []
-    //           }
-    //           this.independentFeatures.push(featGot)
-    //         })
-    //       }
-    //     })
-    // }
   }
 
   featChanged(feat: Feature) {

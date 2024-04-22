@@ -31,9 +31,7 @@ import { filter, map } from 'rxjs/operators';
   templateUrl: './model-id.component.html',
   styleUrls: ['./model-id.component.css'],
 })
-export class ModelIdComponent implements OnInit, OnDestroy {
-  navigationSubscription;
-
+export class ModelIdComponent implements OnInit {
   id: string;
   entityId: string;
   modelId: string;
@@ -60,7 +58,7 @@ export class ModelIdComponent implements OnInit, OnDestroy {
   trainedMeta: Object;
   private userData$: Observable<UserDataResult>;
   links = ['Overview', 'Features', 'Predict-Validate', 'Discussion', 'Meta'];
-  activeTab = this.links[0];
+  activeTab: string;
 
   constructor(
     private rightsService: RightsService,
@@ -76,19 +74,13 @@ export class ModelIdComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private notificationFactory: NotificationFactoryService,
     private oidcSecurityService: OidcSecurityService,
-  ) {
-    this.navigationSubscription = this.router.events.subscribe((e) => {
-      if (e instanceof NavigationEnd) {
-        this.ngOnInit();
-      }
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.userData$ = this.oidcSecurityService.userData$;
 
     this.id = this.route.snapshot.params.id;
-    this.getLastUrlSegment().subscribe((tab) => (this.activeTab = tab));
+    this.activeTab = this.getCurrentTabFromRoute();
     this.modelId = this.id;
     this.modelApi.getWithIdSecured(this.id).subscribe((model: Model) => {
       this.modelToSee = model;
@@ -134,18 +126,8 @@ export class ModelIdComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getLastUrlSegment() {
-    return this.route.url.pipe(
-      map((segments) => segments.pop()), // Get the last segment
-      filter((segment) => segment != null),
-      map((segment) => segment.path), // Get the path of the last segment
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.navigationSubscription) {
-      this.navigationSubscription.unsubscribe();
-    }
+  private getCurrentTabFromRoute() {
+    return this.route.snapshot.firstChild.url[0].path;
   }
 
   updatePhoto() {
@@ -265,7 +247,7 @@ export class ModelIdComponent implements OnInit, OnDestroy {
   }
 
   deleteTag(tag) {
-    let index = this.modelToSee.meta.tags.indexOf(tag);
+    const index = this.modelToSee.meta.tags.indexOf(tag);
     this.modelToSee.meta.tags.splice(index, 1);
   }
 }

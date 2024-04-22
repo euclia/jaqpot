@@ -10,11 +10,17 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { MetaInfo, Model, Task } from '../model/models';
 import { environment } from '../../../environments/environment';
 
+interface CurrentModel {
+  modelId: string;
+  entityId: string;
+  model: Model;
+}
+
 @Injectable()
 export class ModelApiService extends BaseClient<Model> {
   _privateBasePath: string;
   _modelBase = '/model/';
-  private currentModelSubject = new ReplaySubject<Model>(1);
+  private currentModelSubject = new ReplaySubject<CurrentModel>(1);
   currentModel$ = this.currentModelSubject.asObservable();
 
   constructor(
@@ -91,6 +97,10 @@ export class ModelApiService extends BaseClient<Model> {
   }
 
   private setCurrentModel(model: Model) {
-    this.currentModelSubject.next(model);
+    this.currentModelSubject.next({
+      model,
+      modelId: model._id,
+      entityId: 'model/' + model._id,
+    });
   }
 }

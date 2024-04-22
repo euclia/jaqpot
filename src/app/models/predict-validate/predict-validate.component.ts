@@ -57,10 +57,6 @@ export class PredictValidateComponent implements OnInit {
   progressValue: number = 0;
   @Input() entityId: string;
 
-  indepFeatures: Feature[] = [];
-  depFeatures: Feature[] = [];
-
-  featureAndValue: FeatureAndValue;
   indepfeatureAndValues: FeatureAndValue[] = [];
   depFeatureAndValues: FeatureAndValue[] = [];
 
@@ -87,12 +83,9 @@ export class PredictValidateComponent implements OnInit {
     private _sessionService: SessionService,
     private _featureApi: FeatureApiService,
     private _datasetFactory: DatasetFactoryService,
-    private _datasetToViewService: DatasetToViewdataService,
     private _datasetApi: DatasetService,
     private _taskApi: TaskApiService,
     private _dialogsService: DialogsService,
-    // private _ngxPicaService:NgxPicaService,
-    private _featFactory: FeatureFactoryService,
   ) {
     if (environment.production === true) {
       this._canSeeDetails = false;
@@ -102,8 +95,10 @@ export class PredictValidateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._modelApi.currentModel$.subscribe((model: Model) => {
+    this._modelApi.currentModel$.subscribe(({ model, modelId }) => {
       this.model = model;
+      this.indepfeatureAndValues = [];
+      this.depFeatureAndValues = [];
       if (this.model.algorithm.ontologicalClasses.includes('ot:PBPK')) {
         this.simplepred = false;
       }
@@ -144,7 +139,7 @@ export class PredictValidateComponent implements OnInit {
           this._featureApi
             .getWithIdSecured(feat.split('/')[feat.split('/').length - 1])
             .subscribe((feat: Feature) => {
-              let featureAndValue: FeatureAndValue = <FeatureAndValue>{};
+              const featureAndValue: FeatureAndValue = <FeatureAndValue>{};
               featureAndValue.feature = feat;
               this.depFeatureAndValues.push(featureAndValue);
             });
@@ -157,19 +152,19 @@ export class PredictValidateComponent implements OnInit {
             this._featureApi
               .getWithIdSecured(feat.split('/')[feat.split('/').length - 1])
               .subscribe((feat: Feature) => {
-                let featureAndValue: FeatureAndValue = <FeatureAndValue>{};
+                const featureAndValue: FeatureAndValue = <FeatureAndValue>{};
                 featureAndValue.feature = feat;
                 this.indepfeatureAndValues.push(featureAndValue);
               });
           }
         });
       } else {
-        let indF: Map<string, string> =
+        const indF: Map<string, string> =
           this.model.additionalInfo['independentFeatures'];
-        for (let [key, value] of Object.entries(indF)) {
-          let featureAndValue: FeatureAndValue = <FeatureAndValue>{};
-          let feature: Feature = {};
-          let meta: MetaInfo = {};
+        for (const [key, value] of Object.entries(indF)) {
+          const featureAndValue: FeatureAndValue = <FeatureAndValue>{};
+          const feature: Feature = {};
+          const meta: MetaInfo = {};
           meta.titles = [value];
           meta.descriptions = [];
           feature.meta = meta;
@@ -179,12 +174,13 @@ export class PredictValidateComponent implements OnInit {
         }
       }
 
-      this._doaApi
-        .checkIfDoaExists(`model/${this.model.id}`)
-        .subscribe((doaFromResp: Response) => {
+      this._doaApi.checkIfDoaExists(`model/${modelId}`).subscribe(
+        (doaFromResp: Response) => {
           this.actualDoa = <Doa>doaFromResp;
           this.doaEnabled = true;
-        });
+        },
+        (_error) => {},
+      );
     });
 
     this.observe.subscribe((task: Task) => {
@@ -209,9 +205,9 @@ export class PredictValidateComponent implements OnInit {
     var csvData: string = '';
     if (this.selected === 'Predict') {
       let i = 0;
-      let indFeats: Map<string, string> =
+      const indFeats: Map<string, string> =
         this.model.additionalInfo['independentFeatures'];
-      for (let [key, value] of Object.entries(indFeats)) {
+      for (const [key, value] of Object.entries(indFeats)) {
         if (i != 0) {
           csvData = csvData.concat(',' + value);
         } else {
@@ -219,27 +215,16 @@ export class PredictValidateComponent implements OnInit {
         }
         i += 1;
       }
-
-      //   this.indepfeatureAndValues.forEach((feat:FeatureAndValue)=>{
-      //   if(i != 0){
-      //     csvData = csvData.concat("," + feat.feature.meta.titles[0].toString())
-      //   }
-      //   else{
-      //     csvData = csvData.concat(feat.feature.meta.titles[0].toString())
-      //   }
-      //  i += 1;
-      // })
     }
 
-    var blob = new Blob(['\ufeff' + csvData], {
+    const blob = new Blob(['\ufeff' + csvData], {
       type: 'text/csv; charset=utf-8',
     });
-    // var blob = new Blob([csvData], { type: 'text/csv' });
-    var url = window.URL.createObjectURL(blob);
+    const url = window.URL.createObjectURL(blob);
     if ((window.navigator as any).msSaveOrOpenBlob) {
       (window.navigator as any).msSaveBlob(blob, 'dataset.csv');
     } else {
-      var a = document.createElement('a');
+      const a = document.createElement('a');
       a.href = url;
       a.download = 'dataset.csv';
       document.body.appendChild(a);
@@ -263,13 +248,13 @@ export class PredictValidateComponent implements OnInit {
   }
 
   startInputPrediction() {
-    let dataset: Dataset = this._datasetFactory.createPredictDataset(
+    const dataset: Dataset = this._datasetFactory.createPredictDataset(
       this.indepfeatureAndValues,
     );
     this.taskStarted = true;
     // console.log(dataset)
     this._datasetApi.postEntity(dataset).subscribe((dataset: Dataset) => {
-      let datasetUri = environment.jaqpotApi + '/dataset/' + dataset._id;
+      const datasetUri = environment.jaqpotApi + '/dataset/' + dataset._id;
       this._modelApi
         .predict(this.model._id, datasetUri, 'true', this.addDoa === 'true')
         .subscribe((task: Task) => {
@@ -285,7 +270,7 @@ export class PredictValidateComponent implements OnInit {
     this._datasetApi
       .uploadNewDatasetForPrediction(this.datasetForPrediction)
       .subscribe((dataset: Dataset) => {
-        let datasetUri = environment.jaqpotApi + '/dataset/' + dataset._id;
+        const datasetUri = environment.jaqpotApi + '/dataset/' + dataset._id;
         this._modelApi
           .predict(this.model._id, datasetUri, 'true', this.addDoa === 'true')
           .subscribe((task: Task) => {
@@ -353,14 +338,14 @@ export class PredictValidateComponent implements OnInit {
       files.length === 1 &&
       files.item(0).name.split('.')[1] === 'csv'
     ) {
-      let reader: FileReader = new FileReader();
-      let file: File = files.item(0);
+      const reader: FileReader = new FileReader();
+      const file: File = files.item(0);
       reader.readAsText(file);
       reader.onload = (e) => {
-        var _csv = reader.result;
+        let _csv = reader.result;
         _csv = _csv.toString();
         const rows = _csv.split(/\r?\n/);
-        let ids = rows[0].split(/,|;/);
+        const ids = rows[0].split(/,|;/);
         this._dialogsService.askForId(ids).subscribe((result) => {
           reader.abort();
           if (typeof result != 'undefined') {
@@ -374,35 +359,6 @@ export class PredictValidateComponent implements OnInit {
           }
         });
       };
-    } else {
-      let i = 0;
-      let images_csv: string;
-      images_csv = 'id' + ',' + 'image' + '\n';
-      let images: { [key: string]: string } = {};
-      let images_num = files.length;
-      let files2: File[] = [];
-      Array.from(files).forEach((file: File) => {
-        files2.push(file);
-      });
-      // var options:NgxPicaResizeOptionsInterface = <NgxPicaResizeOptionsInterface>{};
-      // let aspectRatio:AspectRatioOptions = <AspectRatioOptions>{};
-      // options.aspectRatio = aspectRatio
-      // options.aspectRatio.keepAspectRatio = true;
-      // this._ngxPicaService.resizeImages(files2, 512, 512, options).subscribe((imageResized: File) => {
-      //   let reader: FileReader = new FileReader();
-      //   reader.readAsDataURL(imageResized);
-      //   reader.onload = (e) =>{
-      //     let image_to_csv = imageResized.name.toString() + "," + reader.result.toString() + "\n";
-      //     images_csv += image_to_csv
-      //     images[imageResized.name] = reader.result.toString();
-      //     i += 1;
-      //     if(images_num === i){
-      //       this.datasetForPrediction = this._datasetFactory.matchPredictDataset(this.indepfeatureAndValues, images_csv, "None")
-      //       this.datasetFormated = true
-      //     }
-      //   }, (err: NgxPicaErrorInterface) => {
-      //     throw err.err;
-      // }})
     }
     this.dataInput.nativeElement.value = '';
   }

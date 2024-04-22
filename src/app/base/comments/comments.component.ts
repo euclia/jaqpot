@@ -64,18 +64,18 @@ export class CommentsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userId = this._sessionService.getUserId();
 
-    let offset = 0;
-    let size = 10;
+    const offset = 0;
+    const size = 10;
 
-    this.modelService.currentModel$.subscribe((model) => {
-      this.entityId = 'model/' + model.id;
+    this.modelService.currentModel$.subscribe(({ entityId }) => {
+      this.entityId = entityId;
       const params = new HttpParams()
         .set('entityid', this.entityId)
         .set('start', offset.toString())
         .set('max', size.toString());
       this._discussionApi.getList(params).subscribe((resp: Discussion[]) => {
         resp.forEach((disc) => {
-          let discussionAll = <DiscussionAll>{};
+          const discussionAll = <DiscussionAll>{};
           discussionAll.replyAll = [];
           discussionAll.discussion = disc;
 
@@ -84,7 +84,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
           });
           if (typeof disc.replies != 'undefined') {
             disc.replies.forEach((repl: Reply) => {
-              let replAll = <ReplyAll>{};
+              const replAll = <ReplyAll>{};
               replAll.reply = repl.reply;
               this._userService.getUserById(repl.owner).then((user) => {
                 replAll.user = user;
@@ -103,7 +103,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
       this._discussionApi
         .count(paramsCount)
         .subscribe((count: HttpResponse<Discussion>) => {
-          let tot = count.headers.get('total');
+          const tot = count.headers.get('total');
           this.viewDisc = true;
           this.totalFound = Number(tot);
         });
@@ -120,17 +120,17 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   saveDiscussion() {
     this.viewDisc = false;
-    let ownerId = this._sessionService.getUserId();
+    const ownerId = this._sessionService.getUserId();
     this._metaBuilder.setCreators(ownerId);
-    let meta: MetaInfo = this._metaBuilder.build();
-    let discussion: Discussion = this._discussionBuilder
+    const meta: MetaInfo = this._metaBuilder.build();
+    const discussion: Discussion = this._discussionBuilder
       .setMeta(meta)
       .setEntityId(this.entityId)
       .setComment(this.comment)
       .build();
     this._discussionApi.postEntity(discussion).subscribe((resp: Discussion) => {
       {
-        let discussionAll = <DiscussionAll>{};
+        const discussionAll = <DiscussionAll>{};
         discussionAll.discussion = resp;
         this._userService.getUserById(resp.meta.creators[0]).then((user) => {
           discussionAll.user = user;
@@ -140,7 +140,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
         }
         if (typeof resp.replies != 'undefined') {
           resp.replies.forEach((repl: Reply) => {
-            let replAll = <ReplyAll>{};
+            const replAll = <ReplyAll>{};
             replAll.reply = repl.reply;
             this._userService.getUserById(repl.owner).then((user) => {
               replAll.user = user;
@@ -168,7 +168,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   reply(disc: DiscussionAll) {
     // let updateDisc =  this.discussionsAll.find(this.findIndexToUpdate(disc), disc.discussion._id)
     this.viewDisc = false;
-    let updateit = this.discussionsAll.indexOf(disc);
+    const updateit = this.discussionsAll.indexOf(disc);
     disc.reply = true;
     this.discussionToReply = disc;
     this.discussionsAll[updateit] = disc;
@@ -192,7 +192,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   updateDiscussion() {
     this.viewDisc = false;
-    let reply = <Reply>{};
+    const reply = <Reply>{};
     reply.reply = this.discussionToReply.replyTemp;
     reply.owner = this._sessionService.getUserId();
     let discussionToUpdate = <Discussion>{};
@@ -204,12 +204,12 @@ export class CommentsComponent implements OnInit, OnDestroy {
       discussionToUpdate.replies.push(reply);
     }
 
-    let updateit = this.discussionsAll.indexOf(this.discussionToReply);
+    const updateit = this.discussionsAll.indexOf(this.discussionToReply);
 
     this._discussionApi
       .putEntitySecured(discussionToUpdate)
       .subscribe((resp: Discussion) => {
-        let discussionAll = <DiscussionAll>{};
+        const discussionAll = <DiscussionAll>{};
         discussionAll.replyAll = [];
         discussionAll.discussion = resp;
         if (resp.meta.creators[0] === this.userId) {
@@ -220,7 +220,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
         });
         if (typeof resp.replies != 'undefined') {
           resp.replies.forEach((repl: Reply) => {
-            let replAll = <ReplyAll>{};
+            const replAll = <ReplyAll>{};
             replAll.reply = repl.reply;
             this._userService.getUserById(repl.owner).then((user) => {
               replAll.user = user;
@@ -235,7 +235,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   viewReplies(disc: DiscussionAll) {
-    let updateit = this.discussionsAll.indexOf(disc);
+    const updateit = this.discussionsAll.indexOf(disc);
     disc.viewReply = true;
     this.discussionsAll[updateit] = disc;
 
@@ -283,8 +283,8 @@ export class CommentsComponent implements OnInit, OnDestroy {
     //   && this.viewPort.measureRenderedContentSize() - this.viewPort.measureScrollOffset() > 300)
 
     if (this.viewPort.getRenderedRange().end - e < 8) {
-      let start = this.viewPort.getDataLength();
-      let max = start + this.batch;
+      const start = this.viewPort.getDataLength();
+      const max = start + this.batch;
       this.viewDisc = false;
       const params = new HttpParams()
         .set('entityid', this.entityId)
@@ -293,7 +293,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
       this.scrollTo = e;
       this._discussionApi.getList(params).subscribe((resp: Discussion[]) => {
         resp.forEach((disc) => {
-          let discussionAll = <DiscussionAll>{};
+          const discussionAll = <DiscussionAll>{};
           discussionAll.replyAll = [];
           discussionAll.discussion = disc;
           this._userService.getUserById(disc.meta.creators[0]).then((user) => {
@@ -301,7 +301,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
           });
           if (typeof disc.replies != 'undefined') {
             disc.replies.forEach((repl: Reply) => {
-              let replAll = <ReplyAll>{};
+              const replAll = <ReplyAll>{};
               replAll.reply = repl.reply;
               this._userService.getUserById(repl.owner).then((user) => {
                 replAll.user = user;
@@ -334,7 +334,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   delete(disc: DiscussionAll) {
-    let updateit = this.discussionsAll.indexOf(disc);
+    const updateit = this.discussionsAll.indexOf(disc);
     this._dialogsService
       .confirmDeletion('Are you sure you want to delete?', 'DELETE')
       .subscribe((resp) => {

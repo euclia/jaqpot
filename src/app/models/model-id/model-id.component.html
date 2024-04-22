@@ -144,7 +144,6 @@
         </div>
       </div>
     </div>
-    <!-- </div> -->
   </mat-drawer>
   <mat-drawer-content>
     <nav mat-tab-nav-bar [tabPanel]="tabPanel">
@@ -159,52 +158,8 @@
       </a>
     </nav>
     <mat-tab-nav-panel #tabPanel>
-      <router-outlet
-        *ngFor="let link of links"
-        name="{{ link }}"
-      ></router-outlet>
-      <!--      <mat-tab label="Overview" class="tab">-->
-      <!--        <div class="markdown mat-elevation-z4">-->
-      <!--          <div class="inner">-->
-      <!--            <app-markdown-->
-      <!--              [viewOrEdit]="viewOrEdit"-->
-      <!--              [entityMeta]="entityMeta"-->
-      <!--              (markdownChanged)="markdownChanged($event)"-->
-      <!--            ></app-markdown>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </mat-tab>-->
-      <!--      <mat-tab label="Features" class="tab">-->
-      <!--        <ng-template matTabContent>-->
-      <!--          <app-model-features-->
-      <!--            [viewOrEdit]="viewOrEdit"-->
-      <!--            [modelToSee]="modelToSee"-->
-      <!--            (modelChanged)="modelChanged($event)"-->
-      <!--            (featsChangedArray)="featsUpdated($event)"-->
-      <!--          ></app-model-features>-->
-      <!--        </ng-template>-->
-      <!--      </mat-tab>-->
-      <!--      <mat-tab label="Predict/Validate" class="tab">-->
-      <!--        <ng-template matTabContent>-->
-      <!--          <app-predict-validate [entityId]="entityId"></app-predict-validate>-->
-      <!--        </ng-template>-->
-      <!--      </mat-tab>-->
-      <!--      <mat-tab label="Discussion" class="tab">-->
-      <!--        <ng-template matTabContent>-->
-      <!--          <app-comments [entityId]="entityId"></app-comments>-->
-      <!--        </ng-template>-->
-      <!--      </mat-tab>-->
-
-      <!--      <mat-tab *ngIf="trainedMeta" label="Model meta" class="tab">-->
-      <!--        <ng-template matTabContent>-->
-      <!--          <app-model-meta [trainedMeta]="trainedMeta"></app-model-meta>-->
-      <!--        </ng-template>-->
-      <!--      </mat-tab>-->
+      <router-outlet></router-outlet>
     </mat-tab-nav-panel>
-
-    <!--    <mat-tab-group class="base_tabs">-->
-
-    <!--    </mat-tab-group>-->
   </mat-drawer-content>
 </mat-drawer-container>
 

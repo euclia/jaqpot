@@ -7,7 +7,7 @@ import { BaseClient } from './base.client';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Doa } from '../model/doa';
 import { tap, catchError, take } from 'rxjs/operators';
-import { Observable, pipe, throwError } from 'rxjs';
+import { EMPTY, Observable, pipe, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
@@ -55,7 +55,7 @@ export class DoaApiService extends BaseClient<Doa> {
       .pipe(
         catchError((err) => {
           console.warn(err);
-          return throwError(() => new Error(err));
+          return EMPTY;
         }),
       );
   }
