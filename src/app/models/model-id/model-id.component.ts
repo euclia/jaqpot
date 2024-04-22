@@ -82,8 +82,11 @@ export class ModelIdComponent implements OnInit {
     this.id = this.route.snapshot.params.id;
     this.activeTab = this.route.snapshot.firstChild.url[0].path;
     this.modelId = this.id;
-    this.modelApi.getWithIdSecured(this.id).subscribe((model: Model) => {
+    this.modelApi.getWithIdSecured(this.id).toPromise();
+
+    this.modelApi.currentModel$.subscribe(({ model, entityId }) => {
       this.modelToSee = model;
+      this.entityId = entityId;
       this.entityMeta = model.meta;
 
       try {
