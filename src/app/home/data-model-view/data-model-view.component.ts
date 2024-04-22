@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   OnChanges,
   Input,
   Output,
@@ -39,11 +38,7 @@ export class DataModelViewComponent implements OnChanges {
 
   ngOnChanges() {
     this.view_items = [];
-    if (this.view_type === 'grid') {
-      this.grid_view = true;
-    } else {
-      this.grid_view = false;
-    }
+    this.grid_view = this.view_type === 'grid';
     this.datasets_to_view.forEach((dataset) => {
       let _view_item: ViewItem = {};
       _view_item.type = 'Dataset';
@@ -192,10 +187,6 @@ export class DataModelViewComponent implements OnChanges {
     this.snackBar.open(message, action, {
       duration: 3200,
     });
-  }
-
-  clicked(item: ViewItem) {
-    this.itemClicked.emit(item);
   }
 }
 

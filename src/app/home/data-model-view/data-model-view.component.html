@@ -8,7 +8,7 @@
     >
       <ng-container *ngFor="let item of view_items">
         <mat-card
-          (click)="clicked(item)"
+          (click)="goToView(item)"
           matTooltip="{{ item.meta.descriptions[0] }}"
           fxFlex.xl="12%"
           fxFlex.lg="18%"
@@ -40,18 +40,6 @@
               </p> -->
           </mat-card-content>
           <mat-card-actions>
-            <!-- <button mat-icon-button matTooltip="Favourite" matTooltipPosition='above' class="card_item_button" (click)="handleFavorites($event)">
-              <mat-icon>favorite_border</mat-icon>
-            </button> -->
-            <button
-              mat-icon-button
-              matTooltip="View"
-              matTooltipPosition="above"
-              class="card_item_button"
-              (click)="goToView(item)"
-            >
-              <mat-icon>remove_red_eye</mat-icon>
-            </button>
             <button
               mat-icon-button
               matTooltip="Delete"
@@ -65,36 +53,13 @@
         </mat-card>
       </ng-container>
     </div>
-    <!-- <mat-grid-list cols="4" rowHeight="280px" class="grid_list">
-    <mat-grid-tile class="grid_tile" *ngFor="let item of view_items" [colspan]="item.cols" [rowspan]="item.rows">
-      <mat-card class="item_card">
-        <mat-card-header>
-          <mat-card-title>{{item.meta.titles[0]}}</mat-card-title>
-          <mat-card-subtitle>{{item.meta.date | date}}</mat-card-subtitle>
-        </mat-card-header>
-        <div *ngIf="item.meta.picture; else no_image">
-          <img class="entity_image" mat-card-image src="{{item.meta.picture}}" alt="Photo of a Shiba Inu">
-        </div>
-        <ng-template #no_image>
-          <mat-icon>format_align_justify</mat-icon>
-        </ng-template>
-        <mat-card-content>
-          <p>
-            {{item.meta.descriptions[0]}}
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list> -->
   </div>
   <ng-template #list_view>
     <mat-list>
       <mat-list-item
         *ngFor="let item of view_items"
         class="list_item"
-        (click)="clicked(item)"
+        (click)="goToView(item)"
       >
         <mat-icon mat-list-icon *ngIf="item.type === 'Dataset'; else model_icon"
           >description</mat-icon
@@ -104,18 +69,6 @@
         </ng-template>
         <h4 mat-line>{{ item.type }} title: {{ item.meta.titles[0] }}</h4>
         <p mat-line>{{ item.meta.date | date }}</p>
-        <button
-          *ngIf="!onTrash"
-          mat-icon-button
-          matTooltip="View"
-          class="list_item_button"
-          (click)="goToView(item)"
-        >
-          <mat-icon>remove_red_eye</mat-icon>
-        </button>
-        <!-- <button mat-icon-button matTooltip="Favourite" class="list_item_button" (click)="handleFavorites($event)">
-          <mat-icon>favorite_border</mat-icon>
-        </button> -->
         <button
           *ngIf="!onTrash"
           mat-icon-button
