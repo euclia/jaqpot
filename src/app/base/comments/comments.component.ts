@@ -13,6 +13,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BehaviorSubject } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { User } from '@euclia/accounts-client/dist/models/user';
+import { ModelApiService } from '../../jaqpot-client/api/model.service';
 
 @Component({
   selector: 'app-comments',
@@ -28,7 +29,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   userId: string;
   offset = new BehaviorSubject(null);
-  // infinite: Observable<DiscussionAll[]> = new Observable();
 
   comment: string;
   saveButton: boolean = false;
@@ -38,8 +38,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   totalFound: number;
 
-  @Input() entityId: string;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   discussions: Discussion[] = [];
@@ -48,11 +46,10 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   discussionToReply: DiscussionAll;
 
-  replyString: string;
-  itemSize: number;
   inited: boolean = false;
   viewDisc: boolean = false;
   scrollTo: number = 0;
+  private entityId: string;
 
   constructor(
     private _discussionApi: DiscussionService,
@@ -61,128 +58,56 @@ export class CommentsComponent implements OnInit, OnDestroy {
     private _sessionService: SessionService,
     private _userService: UserService,
     private _dialogsService: DialogsService,
+    private readonly modelService: ModelApiService,
   ) {}
 
   ngOnInit() {
     this.userId = this._sessionService.getUserId();
-    let params2 = new HttpParams()
-      .set('entityid', this.entityId)
-      .set('min', '0')
-      .set('max', '1');
 
     let offset = 0;
     let size = 10;
-    // this._discussionApi.count(params2)
-    // .subscribe(resp =>{
-    //   this.totalFound = resp.headers.get('total')
-    //   // this.itemSize = resp.headers.get('total')
-    // })
-    // merge(this.paginator.page)
-    // .pipe(
-    //   startWith({}),
-    //   switchMap(() =>{
-    //     // this.isLoadingResults = true;
-    //     // this.isLoading = true;
-    //     let offset = 0
-    //     let size = 10
-    //     if(this.paginator['_isInitialized'] === false){
-    //       offset = 0
-    //       size = 10
-    //     }else{
-    //       offset = this.paginator.pageSize * this.paginator.pageIndex
-    //       size = this.paginator.pageSize
-    //     }
-    //     let discussionTempArray = []
-    //     this.discussionsAll = []
-    //     let params = new HttpParams().set('entityid', this.entityId).set("start", offset.toString()).set("max", size.toString());
-    //     this._discussionApi.getList(params).subscribe((resp:Discussion[]) =>{
-    //       resp.forEach(disc =>{
-    //         let discussionAll = <DiscussionAll>{}
-    //         discussionAll.replyAll = [];
-    //         discussionAll.discussion = disc;
 
-    //         this._userService.getUserById(disc.meta.creators[0]).subscribe(user =>{
-    //           discussionAll.user = user
-    //         })
-    //         if(typeof disc.replies  != 'undefined'){
-    //           disc.replies.forEach((repl:Reply) =>{
-    //             let replAll = <ReplyAll>{}
-    //             replAll.reply = repl.reply
-    //             this._userService.getUserById(repl.owner).subscribe(user =>{
-    //               replAll.user= user
-    //             })
-    //             discussionAll.replyAll.push(replAll)
-    //           })
-    //         }
-    //         if(disc.meta.creators[0] === this.userId){
-    //           discussionAll.delete = true;
-    //         }
-    //         // console.log(this.discussionsAll.length)
-    //         this.discussionsAll.push(discussionAll)
-    //         // discussionTempArray.push(discussionAll)
-    //         // this.infinite = of(this.discussionsAll)
-    //         // this.infinite = this.offset.pipe(map(values => this.discussionsAll ))
-    //         // this.inited = true;
-    //       })
-    //       this.discussions = resp
-    //     })
-    //     return this.discussionsAll;
-    //   } ),
-    //   map(data =>{
-    //     return data
-    //   }),
-    //   catchError(err =>{
-    //     return of([])
-    //   })
-    // ).subscribe((data:DiscussionAll[]) => {
-    //   // console.log(data)
-    //   // this.discussionsAll = []
-    //   // data.forEach(di =>{
-    //   //   this.discussionsAll.push(di)
-    //   // })
-    //   // this.dataSource = this.datasetViewService.createViewData(data , 10);
-    //   // this.data_available = true;
-    //   // this.isLoadingResults = false;
-    // })
+    this.modelService.currentModel$.subscribe((model) => {
+      this.entityId = 'model/' + model.id;
+      const params = new HttpParams()
+        .set('entityid', this.entityId)
+        .set('start', offset.toString())
+        .set('max', size.toString());
+      this._discussionApi.getList(params).subscribe((resp: Discussion[]) => {
+        resp.forEach((disc) => {
+          let discussionAll = <DiscussionAll>{};
+          discussionAll.replyAll = [];
+          discussionAll.discussion = disc;
 
-    let params = new HttpParams()
-      .set('entityid', this.entityId)
-      .set('start', offset.toString())
-      .set('max', size.toString());
-    this._discussionApi.getList(params).subscribe((resp: Discussion[]) => {
-      resp.forEach((disc) => {
-        let discussionAll = <DiscussionAll>{};
-        discussionAll.replyAll = [];
-        discussionAll.discussion = disc;
-
-        this._userService.getUserById(disc.meta.creators[0]).then((user) => {
-          discussionAll.user = user;
-        });
-        if (typeof disc.replies != 'undefined') {
-          disc.replies.forEach((repl: Reply) => {
-            let replAll = <ReplyAll>{};
-            replAll.reply = repl.reply;
-            this._userService.getUserById(repl.owner).then((user) => {
-              replAll.user = user;
-            });
-            discussionAll.replyAll.push(replAll);
+          this._userService.getUserById(disc.meta.creators[0]).then((user) => {
+            discussionAll.user = user;
           });
-        }
-        if (disc.meta.creators[0] === this.userId) {
-          discussionAll.delete = true;
-        }
-        this.discussionsAll.push(discussionAll);
+          if (typeof disc.replies != 'undefined') {
+            disc.replies.forEach((repl: Reply) => {
+              let replAll = <ReplyAll>{};
+              replAll.reply = repl.reply;
+              this._userService.getUserById(repl.owner).then((user) => {
+                replAll.user = user;
+              });
+              discussionAll.replyAll.push(replAll);
+            });
+          }
+          if (disc.meta.creators[0] === this.userId) {
+            discussionAll.delete = true;
+          }
+          this.discussionsAll.push(discussionAll);
+        });
+        this.discussions = resp;
       });
-      this.discussions = resp;
+      const paramsCount = new HttpParams().set('entityid', this.entityId);
+      this._discussionApi
+        .count(paramsCount)
+        .subscribe((count: HttpResponse<Discussion>) => {
+          let tot = count.headers.get('total');
+          this.viewDisc = true;
+          this.totalFound = Number(tot);
+        });
     });
-    let paramscount = new HttpParams().set('entityid', this.entityId);
-    this._discussionApi
-      .count(paramscount)
-      .subscribe((count: HttpResponse<Discussion>) => {
-        let tot = count.headers.get('total');
-        this.viewDisc = true;
-        this.totalFound = Number(tot);
-      });
   }
 
   commentChanged() {
@@ -200,7 +125,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     let meta: MetaInfo = this._metaBuilder.build();
     let discussion: Discussion = this._discussionBuilder
       .setMeta(meta)
-      .setEntriryId(this.entityId)
+      .setEntityId(this.entityId)
       .setComment(this.comment)
       .build();
     this._discussionApi.postEntity(discussion).subscribe((resp: Discussion) => {
@@ -361,7 +286,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
       let start = this.viewPort.getDataLength();
       let max = start + this.batch;
       this.viewDisc = false;
-      let params = new HttpParams()
+      const params = new HttpParams()
         .set('entityid', this.entityId)
         .set('min', start.toString())
         .set('max', max.toString());

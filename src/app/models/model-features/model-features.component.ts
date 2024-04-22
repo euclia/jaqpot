@@ -1,18 +1,28 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { Feature, MetaInfo, Model } from '../../jaqpot-client';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
+import { ModelApiService } from '../../jaqpot-client/api/model.service';
 
 @Component({
   selector: 'app-model-features',
   templateUrl: './model-features.component.html',
   styleUrls: ['./model-features.component.css'],
 })
-export class ModelFeaturesComponent implements OnChanges, AfterViewInit {
+export class ModelFeaturesComponent
+  implements OnInit, OnChanges, AfterViewInit
+{
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  @Input() modelToSee: Model;
 
   @Input() viewOrEdit: string;
 
@@ -21,13 +31,22 @@ export class ModelFeaturesComponent implements OnChanges, AfterViewInit {
   @Output() featsChangedArray = new EventEmitter<any>();
 
   edit: boolean = false;
-  dependendFeatures: Feature[] = [];
+  dependentFeatures: Feature[] = [];
   independentFeatures: Feature[] = [];
   featsChanged: Feature[] = [];
 
-  _featuresStream: Subject<string> = new Subject();
+  private modelToSee: Model;
 
-  constructor(private featureApi: FeatureApiService) {}
+  constructor(
+    private readonly featureApi: FeatureApiService,
+    private readonly modelService: ModelApiService,
+  ) {}
+
+  ngOnInit(): void {
+    this.modelService.currentModel$.subscribe((model) => {
+      this.modelToSee = model;
+    });
+  }
 
   ngOnChanges() {
     if (this.viewOrEdit === 'edit') {
@@ -84,7 +103,7 @@ export class ModelFeaturesComponent implements OnChanges, AfterViewInit {
               if (typeof featGot.meta.descriptions == 'undefined') {
                 featGot.meta.descriptions = [];
               }
-              this.dependendFeatures.push(featGot);
+              this.dependentFeatures.push(featGot);
             });
         }
       }

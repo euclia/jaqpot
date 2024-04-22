@@ -102,105 +102,97 @@ export class PredictValidateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._modelApi
-      .getWithIdSecured(this.entityId.split('/')[1])
-      .subscribe((model: Model) => {
-        this.model = model;
-        if (this.model.algorithm.ontologicalClasses.includes('ot:PBPK')) {
-          this.simplepred = false;
-        }
-        if (
-          typeof this.model.algorithm != 'undefined' &&
-          typeof this.model.algorithm.ontologicalClasses != 'undefined' &&
-          this.model.algorithm.ontologicalClasses.includes('ot:PBPK')
-        ) {
-          this.canValidate = false;
-        }
-        if (
-          typeof model.meta.execute != 'undefined' &&
-          model.meta.execute.includes('Jaqpot')
-        ) {
-          this.canExecute = true;
-        }
-        if (model.meta.creators.includes(this._sessionService.getUserId())) {
-          this.canExecute = true;
-        }
-        this._userApi
-          .getUserById(this._sessionService.getUserId())
-          .then((user: User) => {
-            this.userNow = user;
-            if (user.organizations) {
-              user.organizations.forEach((org) => {
-                if (
-                  typeof model.meta.execute != 'undefined' &&
-                  model.meta.execute.includes(org)
-                ) {
-                  this.canExecute = true;
-                }
-              });
-            }
-          });
+    this._modelApi.currentModel$.subscribe((model: Model) => {
+      this.model = model;
+      if (this.model.algorithm.ontologicalClasses.includes('ot:PBPK')) {
+        this.simplepred = false;
+      }
+      if (
+        typeof this.model.algorithm != 'undefined' &&
+        typeof this.model.algorithm.ontologicalClasses != 'undefined' &&
+        this.model.algorithm.ontologicalClasses.includes('ot:PBPK')
+      ) {
+        this.canValidate = false;
+      }
+      if (
+        typeof model.meta.execute != 'undefined' &&
+        model.meta.execute.includes('Jaqpot')
+      ) {
+        this.canExecute = true;
+      }
+      if (model.meta.creators.includes(this._sessionService.getUserId())) {
+        this.canExecute = true;
+      }
+      this._userApi
+        .getUserById(this._sessionService.getUserId())
+        .then((user: User) => {
+          this.userNow = user;
+          if (user.organizations) {
+            user.organizations.forEach((org) => {
+              if (
+                typeof model.meta.execute != 'undefined' &&
+                model.meta.execute.includes(org)
+              ) {
+                this.canExecute = true;
+              }
+            });
+          }
+        });
 
-        model.dependentFeatures.forEach((feat) => {
+      model.dependentFeatures.forEach((feat) => {
+        if (feat) {
+          this._featureApi
+            .getWithIdSecured(feat.split('/')[feat.split('/').length - 1])
+            .subscribe((feat: Feature) => {
+              let featureAndValue: FeatureAndValue = <FeatureAndValue>{};
+              featureAndValue.feature = feat;
+              this.depFeatureAndValues.push(featureAndValue);
+            });
+        }
+      });
+
+      if (this.model.independentFeatures.length < 40) {
+        this.model.independentFeatures.forEach((feat) => {
           if (feat) {
             this._featureApi
               .getWithIdSecured(feat.split('/')[feat.split('/').length - 1])
               .subscribe((feat: Feature) => {
                 let featureAndValue: FeatureAndValue = <FeatureAndValue>{};
                 featureAndValue.feature = feat;
-                this.depFeatureAndValues.push(featureAndValue);
+                this.indepfeatureAndValues.push(featureAndValue);
               });
           }
         });
-
-        if (this.model.independentFeatures.length < 40) {
-          this.model.independentFeatures.forEach((feat) => {
-            if (feat) {
-              this._featureApi
-                .getWithIdSecured(feat.split('/')[feat.split('/').length - 1])
-                .subscribe((feat: Feature) => {
-                  let featureAndValue: FeatureAndValue = <FeatureAndValue>{};
-                  featureAndValue.feature = feat;
-                  this.indepfeatureAndValues.push(featureAndValue);
-                });
-            }
-          });
-        } else {
-          let indF: Map<string, string> =
-            this.model.additionalInfo['independentFeatures'];
-          for (let [key, value] of Object.entries(indF)) {
-            let featureAndValue: FeatureAndValue = <FeatureAndValue>{};
-            let feature: Feature = {};
-            let meta: MetaInfo = {};
-            meta.titles = [value];
-            meta.descriptions = [];
-            feature.meta = meta;
-            feature._id = key.split('/')[key.split('/').length - 1];
-            featureAndValue.feature = feature;
-            this.indepfeatureAndValues.push(featureAndValue);
-          }
+      } else {
+        let indF: Map<string, string> =
+          this.model.additionalInfo['independentFeatures'];
+        for (let [key, value] of Object.entries(indF)) {
+          let featureAndValue: FeatureAndValue = <FeatureAndValue>{};
+          let feature: Feature = {};
+          let meta: MetaInfo = {};
+          meta.titles = [value];
+          meta.descriptions = [];
+          feature.meta = meta;
+          feature._id = key.split('/')[key.split('/').length - 1];
+          featureAndValue.feature = feature;
+          this.indepfeatureAndValues.push(featureAndValue);
         }
-      });
+      }
+
+      this._doaApi
+        .checkIfDoaExists(`model/${this.model.id}`)
+        .subscribe((doaFromResp: Response) => {
+          this.actualDoa = <Doa>doaFromResp;
+          this.doaEnabled = true;
+        });
+    });
 
     this.observe.subscribe((task: Task) => {
       this.getTask(task._id);
     });
-
-    this._doaApi
-      .checkIfDoaExists('model/' + this.entityId.split('/')[1])
-      .pipe(
-        tap((res: Response) => {
-          return res;
-        }),
-        catchError((err) => this.handleErrorIn(err)),
-      )
-      .subscribe((doaFromResp: Response) => {
-        this.actualDoa = <Doa>doaFromResp;
-        this.doaEnabled = true;
-      });
   }
 
-  methodSelected(event) {
+  methodSelected() {
     this.taskStarted = false;
   }
 

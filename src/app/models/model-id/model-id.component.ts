@@ -23,6 +23,8 @@ import {
   UserDataResult,
 } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
+import { MatTabLink } from '@angular/material/tabs/tab-nav-bar/tab-nav-bar';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-model-id',
@@ -57,6 +59,8 @@ export class ModelIdComponent implements OnInit, OnDestroy {
 
   trainedMeta: Object;
   private userData$: Observable<UserDataResult>;
+  links = ['Overview', 'Features', 'Predict-Validate', 'Discussion', 'Meta'];
+  activeTab = this.links[0];
 
   constructor(
     private rightsService: RightsService,
@@ -84,14 +88,14 @@ export class ModelIdComponent implements OnInit, OnDestroy {
     this.userData$ = this.oidcSecurityService.userData$;
 
     this.id = this.route.snapshot.params.id;
-    this.entityId = 'model/' + this.id;
+    this.getLastUrlSegment().subscribe((tab) => (this.activeTab = tab));
     this.modelId = this.id;
     this.modelApi.getWithIdSecured(this.id).subscribe((model: Model) => {
       this.modelToSee = model;
       this.entityMeta = model.meta;
 
       try {
-        this.trainedMeta = model.additionalInfo['fromUser']['meta'];
+        this.trainedMeta = model.additionalInfo.fromUser?.meta;
       } catch (e) {
         console.error(e);
       }
@@ -127,6 +131,14 @@ export class ModelIdComponent implements OnInit, OnDestroy {
           localStorage.removeItem('goToModel');
         }
       },
+    );
+  }
+
+  private getLastUrlSegment() {
+    return this.route.url.pipe(
+      map((segments) => segments.pop()), // Get the last segment
+      filter((segment) => segment != null),
+      map((segment) => segment.path), // Get the path of the last segment
     );
   }
 

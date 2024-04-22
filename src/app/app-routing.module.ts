@@ -18,6 +18,11 @@ import { DatasetIdComponent } from './dataset/dataset-id/dataset-id.component';
 import { SearchBaseComponent } from './search/search-base/search-base.component';
 import { JaqpotNotificationsComponent } from './jaqpot-notifications/jaqpot-notifications.component';
 import { HttkmodelsComponent } from './httk/httkmodels/httkmodels.component';
+import { MarkdownComponent } from './base/markdown/markdown.component';
+import { ModelFeaturesComponent } from './models/model-features/model-features.component';
+import { PredictValidateComponent } from './models/predict-validate/predict-validate.component';
+import { CommentsComponent } from './base/comments/comments.component';
+import { ModelMetaComponent } from './models/model-meta/model-meta.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
@@ -58,7 +63,18 @@ const routes: Routes = [
     component: OrganizationBaseComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'model/:id', component: ModelIdComponent },
+  {
+    path: 'model/:id',
+    component: ModelIdComponent, // This component should contain the tab group
+    children: [
+      { path: 'overview', component: MarkdownComponent },
+      { path: 'features', component: ModelFeaturesComponent },
+      { path: 'predict-validate', component: PredictValidateComponent },
+      { path: 'discussion', component: CommentsComponent },
+      { path: 'meta', component: ModelMetaComponent },
+      { path: '', redirectTo: 'overview', pathMatch: 'full' }, // Default redirect to details tab
+    ],
+  },
   { path: 'dataset/:id', component: DatasetIdComponent },
   {
     path: 'workbench',
@@ -75,7 +91,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [
+    CommonModule,
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+  ],
   declarations: [],
   exports: [RouterModule],
 })

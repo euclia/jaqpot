@@ -5,7 +5,7 @@
     <mat-grid-tile class="grid_tile" *ngFor="let feat of dependendFeatures;" [colspan]="1" [rowspan]="1"> -->
 
   <div
-    *ngFor="let feat of dependendFeatures"
+    *ngFor="let feat of dependentFeatures"
     fxLayout="row wrap"
     fxLayout.lt-sm="column"
     fxLayoutGap="4px"
@@ -106,7 +106,7 @@
                     Type your name and age
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-            
+
                 <div *ngIf="feat.meta.descriptions">
                     <p *ngIf="feat.meta.descriptions[0]"> Description: {{feat.meta.descriptions[0]}} </p>
                   </div>
