@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Build the application
-RUN npm run build --  --output-path=dist --configuration=$CONFIGURATION --output-hashing=all
+RUN npm run build -- --omit=dev --output-path=dist --configuration=$CONFIGURATION --output-hashing=all
 
 
 ######  Use NgInx alpine image  ######
