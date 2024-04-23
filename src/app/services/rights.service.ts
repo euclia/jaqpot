@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '@euclia/accounts-client/dist/models/user';
+import { User } from '@euclia/accounts-client';
 import { MetaInfo } from '../jaqpot-client';
 
 @Injectable({

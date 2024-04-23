@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { HttpParams } from '@angular/common/http';
 import { Model, Dataset } from '../../jaqpot-client';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
@@ -23,7 +23,7 @@ export class HttkmodelsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private _modelApi: ModelApiService,
+    private _modelApi: ModelService,
     private _datasetApi: DatasetService,
     private _dialogsService: DialogsService,
   ) {}

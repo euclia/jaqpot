@@ -5,13 +5,12 @@ import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { Dataset, MetaInfo, Feature } from '../../jaqpot-client';
 import { UserService } from '../../jaqpot-client/api/user.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
-import { DatasetComponent } from '../dataset-component/dataset.component';
-import { User } from '@euclia/accounts-client/dist/models/user';
+import { User } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-dataset-id',
@@ -46,7 +45,7 @@ export class DatasetIdComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private datasetApi: DatasetService,
     public userApi: UserService,
-    public modelApi: ModelApiService,
+    public modelApi: ModelService,
     public dialogsService: DialogsService,
     public featureApi: FeatureApiService,
     public notificationService: NotificationService,

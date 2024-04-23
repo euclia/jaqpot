@@ -5,9 +5,9 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { SessionService } from '../../session/session.service';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import { Meta } from '@euclia/accounts-client/dist/models/meta';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { User } from '@euclia/accounts-client';
+import { Meta } from '@euclia/accounts-client';
+import { Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-organization-users',

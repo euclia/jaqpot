@@ -1,12 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-  NavigationEnd,
-  UrlSerializer,
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SessionService } from '../../session/session.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { Model, MetaInfo, Feature } from '../../jaqpot-client';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
@@ -16,15 +11,9 @@ import { OrganizationService } from '../../jaqpot-client/api/organization.servic
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import {
-  OidcClientNotification,
-  OidcSecurityService,
-  UserDataResult,
-} from 'angular-auth-oidc-client';
+import { User } from '@euclia/accounts-client';
+import { OidcSecurityService, UserDataResult } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
-import { MatTabLink } from '@angular/material/tabs/tab-nav-bar/tab-nav-bar';
-import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-model-id',
@@ -65,7 +54,7 @@ export class ModelIdComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private sessionService: SessionService,
-    private modelApi: ModelApiService,
+    private modelApi: ModelService,
     private featureApi: FeatureApiService,
     private dialogsService: DialogsService,
     private userApi: UserService,

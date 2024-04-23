@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { OrganizationService } from '../../../jaqpot-client/api/organization.service';
 import { NotificationService } from '../../../jaqpot-client/api/notification.service';
 import { UserService } from '../../../jaqpot-client/api/user.service';
-import { ModelApiService } from '../../../jaqpot-client/api/model.service';
+import { ModelService } from '../../../jaqpot-client/api/model.service';
 import { DatasetService } from '../../../jaqpot-client/api/dataset.service';
 import { Notification } from '../../../jaqpot-client/model/notification';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,7 +17,7 @@ export class FyiNotifComponent {
   _organizationApi: OrganizationService;
   _notificationApi: NotificationService;
   _userApi: UserService;
-  _modelApi: ModelApiService;
+  _modelApi: ModelService;
   _datasetApi: DatasetService;
 
   openedFrom: string;

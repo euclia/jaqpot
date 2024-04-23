@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { SocialBaseComponent } from '../social.base/social.base.component';
 import { CreateOrganizationComponent } from '../../dialogs/create-organization/create-organization.component';
-import { User } from '@euclia/accounts-client/dist/models/user';
+import { User } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-account.base',

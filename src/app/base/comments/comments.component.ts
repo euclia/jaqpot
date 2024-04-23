@@ -12,8 +12,8 @@ import { HttpParams, HttpResponse } from '@angular/common/http';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BehaviorSubject } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { User } from '@euclia/accounts-client';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 
 @Component({
   selector: 'app-comments',
@@ -58,7 +58,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     private _sessionService: SessionService,
     private _userService: UserService,
     private _dialogsService: DialogsService,
-    private readonly modelService: ModelApiService,
+    private readonly modelService: ModelService,
   ) {}
 
   ngOnInit() {

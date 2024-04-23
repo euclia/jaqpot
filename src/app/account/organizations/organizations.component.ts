@@ -3,7 +3,7 @@ import { User } from '../../jaqpot-client';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-organizations',

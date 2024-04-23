@@ -12,7 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { Feature, MetaInfo, Model } from '../../jaqpot-client';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 
 @Component({
   selector: 'app-model-features',
@@ -37,7 +37,7 @@ export class ModelFeaturesComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly featureApi: FeatureApiService,
-    private readonly modelService: ModelApiService,
+    private readonly modelService: ModelService,
   ) {}
 
   ngOnInit(): void {

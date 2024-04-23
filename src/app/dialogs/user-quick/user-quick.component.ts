@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '@euclia/accounts-client/dist/models/user';
+import { User } from '@euclia/accounts-client';
 import { UserService } from '../../jaqpot-client/api/user.service';
 
 @Component({

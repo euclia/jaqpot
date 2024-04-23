@@ -3,8 +3,8 @@ import { ViewItem } from '../data-model-view/data-model-view.component';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { User } from '@euclia/accounts-client';
+import { Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-quick-view',

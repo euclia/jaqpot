@@ -1,14 +1,14 @@
 import { Component, OnChanges, Input } from '@angular/core';
 import { SearchViewItem } from '../../ui-models/searchViewItem';
 import { Model, Dataset, Feature } from '../../jaqpot-client';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { User } from '@euclia/accounts-client';
+import { Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-search-quick-view',
@@ -26,7 +26,7 @@ export class SearchQuickViewComponent implements OnChanges {
   predicts: Feature[] = [];
 
   constructor(
-    private modelApi: ModelApiService,
+    private modelApi: ModelService,
     public datasetApi: DatasetService,
     public organizationApi: OrganizationService,
     private userApi: UserService,

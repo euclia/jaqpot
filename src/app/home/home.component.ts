@@ -8,7 +8,7 @@ import { DatasetFactoryService } from '../jaqpot-client/factories/dataset-factor
 import { FeatureApiService } from '../jaqpot-client/api/feature.service';
 import { DatasetService } from '../jaqpot-client/api/dataset.service';
 import { Dataset, Model } from '../jaqpot-client';
-import { ModelApiService } from '../jaqpot-client/api/model.service';
+import { ModelService } from '../jaqpot-client/api/model.service';
 import { UserService } from '../jaqpot-client/api/user.service';
 // import { NgxPicaService, NgxPicaResizeOptionsInterface, NgxPicaErrorInterface } from '@digitalascetic/ngx-pica';
 // import { AspectRatioOptions } from '@digitalascetic/ngx-pica/src/ngx-pica-resize-options.interface';
@@ -17,8 +17,8 @@ import { DatasetToViewdataService } from '../services/dataset-to-viewdata.servic
 import { HttpParams } from '@angular/common/http';
 import { ViewItem } from './data-model-view/data-model-view.component';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { User } from '@euclia/accounts-client';
+import { Organization } from '@euclia/accounts-client';
 import { OrganizationService } from '../jaqpot-client/api/organization.service';
 
 // export interface Queries{
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     public datasetFactory: DatasetFactoryService,
     public featureApi: FeatureApiService,
     public datasetApi: DatasetService,
-    public modelApi: ModelApiService,
+    public modelApi: ModelService,
     public userApi: UserService,
     public featFactory: FeatureFactoryService,
     public orgService: OrganizationService,

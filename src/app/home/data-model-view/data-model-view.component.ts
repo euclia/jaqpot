@@ -8,7 +8,7 @@ import {
 import { Dataset, Model, MetaInfo } from '../../jaqpot-client';
 import { Router } from '@angular/router';
 import { DialogsService } from '../../dialogs/dialogs.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -32,7 +32,7 @@ export class DataModelViewComponent implements OnChanges {
     public snackBar: MatSnackBar,
     private router: Router,
     private dialogsService: DialogsService,
-    private modelApi: ModelApiService,
+    private modelApi: ModelService,
     private datasetApi: DatasetService,
   ) {}
 

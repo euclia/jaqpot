@@ -3,7 +3,7 @@ import { Notification } from '../../jaqpot-client/model/notification';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
 
@@ -23,7 +23,7 @@ export class ViewNotifsComponent {
     private organizationService: OrganizationService,
     private notificationService: NotificationService,
     private datasetService: DatasetService,
-    private modelService: ModelApiService,
+    private modelService: ModelService,
     private userService: UserService,
   ) {}
 

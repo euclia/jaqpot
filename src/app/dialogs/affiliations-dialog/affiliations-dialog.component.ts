@@ -4,7 +4,7 @@ import { NotificationService } from '../../jaqpot-client/api/notification.servic
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
 import { SessionService } from '../../session/session.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-affiliations-dialog',

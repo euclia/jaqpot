@@ -8,7 +8,7 @@ import {
   AfterContentInit,
   AfterContentChecked,
 } from '@angular/core';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { Model, Feature, Dataset, Task, MetaInfo } from '../../jaqpot-client';
 import { UserService } from '../../jaqpot-client/api/user.service';
 import { SessionService } from '../../session/session.service';
@@ -22,11 +22,9 @@ import { tap, delay, catchError } from 'rxjs/operators';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment.prod';
-import { DatasetToViewdataService } from '../../services/dataset-to-viewdata.service';
-import { FeatureFactoryService } from '../../jaqpot-client/factories/feature-factory.service';
 import { DoaApiService } from '../../jaqpot-client/api/doa.service';
 import { Doa } from '../../jaqpot-client/model/doa';
-import { User } from '@euclia/accounts-client/dist/models/user';
+import { User } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-predict-validate',
@@ -77,7 +75,7 @@ export class PredictValidateComponent implements OnInit {
   actualDoa: Doa;
 
   constructor(
-    private _modelApi: ModelApiService,
+    private _modelApi: ModelService,
     private _userApi: UserService,
     private _doaApi: DoaApiService,
     private _sessionService: SessionService,

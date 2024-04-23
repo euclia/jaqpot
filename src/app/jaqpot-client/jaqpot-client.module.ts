@@ -1,8 +1,5 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AppModule } from '../app.module';
+import { NgModule } from '@angular/core';
 // import { ConfigService } from '../app.';
-
 import { SessionService } from '../session/session.service';
 import { SessionModule } from '../session/session.module';
 import { AlgorithmService } from './api/algorithm.service';
@@ -13,7 +10,7 @@ import { DatasetService } from './api/dataset.service';
 // import { EnmService } from './api/enm.service';
 // import { FeatureService } from './api/feature.service';
 // import { InterlabService } from './api/interlab.service';
-import { ModelApiService } from './api/model.service';
+import { ModelService } from './api/model.service';
 // import { OpenrisknetService } from './api/openrisknet.service';
 // import { PmmlService } from './api/pmml.service';
 // import { ReadacrossService } from './api/readacross.service';
@@ -34,35 +31,20 @@ import { ReportApiService } from './api/report.service';
 import { SearchApiService } from './api/search.service';
 import { DoaApiService } from './api/doa.service';
 import { HttkApiService } from './api/httk.service';
-// import { DatasetApiFacadeService } from './facades/dataset-api-facade.service';
-// import { ValidationService } from './api/validation.service';
 
 @NgModule({
   imports: [SessionModule],
   declarations: [],
   exports: [],
   providers: [
-    // AaService,
     SessionService,
     AlgorithmService,
     FeatureApiService,
-    // AlgorithmService,
-    // BibtexService,
     DatasetService,
-    // DoseresponseService,
-    // EnmService,
-    // FeatureService,
-    // InterlabService,
-    ModelApiService,
-    // OpenrisknetService,
-    // PmmlService,
-    // ReadacrossService,
-    // ReportService,
-    // TaskService,
+    ModelService,
     UserService,
     OrganizationService,
     NotificationService,
-    // ValidationService
     NotificationFactoryService,
     NotificationBuilderService,
     DatasetBuilderService,
@@ -75,15 +57,6 @@ import { HttkApiService } from './api/httk.service';
     SearchApiService,
     DoaApiService,
     HttkApiService,
-    // DatasetApiFacadeService
-    // Feature
   ],
 })
-export class JaqpotClientModule {
-  // public static forConfig(configurationFactory: () => ConfigService): ModuleWithProviders {
-  //     return {
-  //         ngModule: JaqpotClientModule,
-  //         providers: [ {provide: ConfigService, useFactory: configurationFactory}]
-  //     }
-  // }
-}
+export class JaqpotClientModule {}

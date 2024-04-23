@@ -17,7 +17,7 @@ interface CurrentModel {
 }
 
 @Injectable()
-export class ModelApiService extends BaseClient<Model> {
+export class ModelService extends BaseClient<Model> {
   _privateBasePath: string;
   _modelBase = '/model/';
   private currentModelSubject = new ReplaySubject<CurrentModel>(1);
