@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../jaqpot-client/api/user.service';
-import { FormControl, Validators } from '../../../../node_modules/@angular/forms';
+import {
+  FormControl,
+  Validators,
+} from '../../../../node_modules/@angular/forms';
 import { User } from '../../jaqpot-client';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
 import { Notification } from '../../jaqpot-client/model/notification';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { SessionService } from '../../session/session.service';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-invite-dialog',

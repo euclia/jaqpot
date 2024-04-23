@@ -20,8 +20,11 @@ import '../rxjs-operators';
 import { SessionService } from '../../session/session.service';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { EucliaAccountsFactory, IEucliaAccounts } from '@euclia/accounts-client';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import {
+  EucliaAccountsFactory,
+  IEucliaAccounts,
+} from '@euclia/accounts-client';
+import { Organization } from '@euclia/accounts-client';
 import { environment } from '../../../environments/environment';
 
 @Injectable()

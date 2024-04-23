@@ -9,13 +9,13 @@ import { ProfilepicDialogComponent } from '../../dialogs/profilepic-dialog/profi
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { MetaInfo, Model } from '../../jaqpot-client';
 import { SessionService } from '../../session/session.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import { Meta, Organization } from '@euclia/accounts-client/dist/models/models';
+import { User } from '@euclia/accounts-client';
+import { Meta, Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-organization-base',
@@ -57,7 +57,7 @@ export class OrganizationBaseComponent implements OnInit {
     private notifApi: NotificationService,
     private route: ActivatedRoute,
     private organizationService: OrganizationService,
-    private modelApi: ModelApiService,
+    private modelApi: ModelService,
     private datasetApi: DatasetService,
     private userApi: UserService,
     private router: Router,

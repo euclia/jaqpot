@@ -23,7 +23,7 @@ import { DatasetToViewdataService } from '../services/dataset-to-viewdata.servic
 import { HttpErrorResponse } from '@angular/common/http';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { DatasetService } from '../jaqpot-client/api/dataset.service';
-import { ModelApiService } from '../jaqpot-client/api/model.service';
+import { ModelService } from '../jaqpot-client/api/model.service';
 import { ShareNotifDialogComponent } from './notification-dialogs/share-notif-dialog/share-notif-dialog.component';
 import { AskForIdComponent } from './ask-for-id/ask-for-id.component';
 import { AddAdministratorComponent } from './add-administrator/add-administrator.component';
@@ -32,9 +32,9 @@ import { AffiliationNotifComponent } from './notification-dialogs/affiliation-no
 import { FyiNotifComponent } from './notification-dialogs/fyi-notif/fyi-notif.component';
 import { BrokenAffilNotifComponent } from './notification-dialogs/broken-affil-notif/broken-affil-notif.component';
 import { ChooseXYComponent } from './choose-x-y/choose-x-y.component';
-import { User } from '@euclia/accounts-client/dist/models/user';
+import { User } from '@euclia/accounts-client';
 import { ManageAccountsDialogComponent } from './manage-accounts-dialog/manage-accounts-dialog.component';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { Organization } from '@euclia/accounts-client';
 
 @Injectable()
 export class DialogsService {
@@ -141,7 +141,7 @@ export class DialogsService {
     organizationService: OrganizationService,
     notificationService: NotificationService,
     datasetService: DatasetService,
-    modelService: ModelApiService,
+    modelService: ModelService,
     userService: UserService,
     openedFrom: string,
   ) {
@@ -250,7 +250,7 @@ export class DialogsService {
   public openSharingDialog(
     entityType: string,
     entityId: string,
-    modelService: ModelApiService,
+    modelService: ModelService,
     datasetService: DatasetService,
     organizationService: OrganizationService,
     notificationService: NotificationService,

@@ -9,14 +9,14 @@ import { Observable } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { UserService } from '../../jaqpot-client/api/user.service';
 import { Dataset, Model } from '../../jaqpot-client';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
 import { Notification } from '../../jaqpot-client/model/notification';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { User } from '@euclia/accounts-client';
+import { Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-share-dialog',
@@ -26,7 +26,7 @@ import { Organization } from '@euclia/accounts-client/dist/models/models';
 export class ShareDialogComponent implements OnInit {
   _entityType: string;
   _datasetApi: DatasetService;
-  _modelApi: ModelApiService;
+  _modelApi: ModelService;
   _organizationApi: OrganizationService;
   _notificationApi: NotificationService;
   _notificationFactory: NotificationFactoryService;

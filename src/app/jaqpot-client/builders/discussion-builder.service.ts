@@ -13,7 +13,7 @@ export class DiscussionBuilderService {
     this.discussion = <Discussion>{};
   }
 
-  public setEntriryId(entityId: string) {
+  public setEntityId(entityId: string) {
     this.discussion.onEntity = entityId;
     return this;
   }

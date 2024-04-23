@@ -12,7 +12,8 @@ import { HttpParams, HttpResponse } from '@angular/common/http';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { BehaviorSubject } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
-import { User } from '@euclia/accounts-client/dist/models/user';
+import { User } from '@euclia/accounts-client';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 
 @Component({
   selector: 'app-comments',
@@ -28,7 +29,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   userId: string;
   offset = new BehaviorSubject(null);
-  // infinite: Observable<DiscussionAll[]> = new Observable();
 
   comment: string;
   saveButton: boolean = false;
@@ -38,8 +38,6 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   totalFound: number;
 
-  @Input() entityId: string;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   discussions: Discussion[] = [];
@@ -48,11 +46,10 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   discussionToReply: DiscussionAll;
 
-  replyString: string;
-  itemSize: number;
   inited: boolean = false;
   viewDisc: boolean = false;
   scrollTo: number = 0;
+  private entityId: string;
 
   constructor(
     private _discussionApi: DiscussionService,
@@ -61,128 +58,56 @@ export class CommentsComponent implements OnInit, OnDestroy {
     private _sessionService: SessionService,
     private _userService: UserService,
     private _dialogsService: DialogsService,
+    private readonly modelService: ModelService,
   ) {}
 
   ngOnInit() {
     this.userId = this._sessionService.getUserId();
-    let params2 = new HttpParams()
-      .set('entityid', this.entityId)
-      .set('min', '0')
-      .set('max', '1');
 
-    let offset = 0;
-    let size = 10;
-    // this._discussionApi.count(params2)
-    // .subscribe(resp =>{
-    //   this.totalFound = resp.headers.get('total')
-    //   // this.itemSize = resp.headers.get('total')
-    // })
-    // merge(this.paginator.page)
-    // .pipe(
-    //   startWith({}),
-    //   switchMap(() =>{
-    //     // this.isLoadingResults = true;
-    //     // this.isLoading = true;
-    //     let offset = 0
-    //     let size = 10
-    //     if(this.paginator['_isInitialized'] === false){
-    //       offset = 0
-    //       size = 10
-    //     }else{
-    //       offset = this.paginator.pageSize * this.paginator.pageIndex
-    //       size = this.paginator.pageSize
-    //     }
-    //     let discussionTempArray = []
-    //     this.discussionsAll = []
-    //     let params = new HttpParams().set('entityid', this.entityId).set("start", offset.toString()).set("max", size.toString());
-    //     this._discussionApi.getList(params).subscribe((resp:Discussion[]) =>{
-    //       resp.forEach(disc =>{
-    //         let discussionAll = <DiscussionAll>{}
-    //         discussionAll.replyAll = [];
-    //         discussionAll.discussion = disc;
+    const offset = 0;
+    const size = 10;
 
-    //         this._userService.getUserById(disc.meta.creators[0]).subscribe(user =>{
-    //           discussionAll.user = user
-    //         })
-    //         if(typeof disc.replies  != 'undefined'){
-    //           disc.replies.forEach((repl:Reply) =>{
-    //             let replAll = <ReplyAll>{}
-    //             replAll.reply = repl.reply
-    //             this._userService.getUserById(repl.owner).subscribe(user =>{
-    //               replAll.user= user
-    //             })
-    //             discussionAll.replyAll.push(replAll)
-    //           })
-    //         }
-    //         if(disc.meta.creators[0] === this.userId){
-    //           discussionAll.delete = true;
-    //         }
-    //         // console.log(this.discussionsAll.length)
-    //         this.discussionsAll.push(discussionAll)
-    //         // discussionTempArray.push(discussionAll)
-    //         // this.infinite = of(this.discussionsAll)
-    //         // this.infinite = this.offset.pipe(map(values => this.discussionsAll ))
-    //         // this.inited = true;
-    //       })
-    //       this.discussions = resp
-    //     })
-    //     return this.discussionsAll;
-    //   } ),
-    //   map(data =>{
-    //     return data
-    //   }),
-    //   catchError(err =>{
-    //     return of([])
-    //   })
-    // ).subscribe((data:DiscussionAll[]) => {
-    //   // console.log(data)
-    //   // this.discussionsAll = []
-    //   // data.forEach(di =>{
-    //   //   this.discussionsAll.push(di)
-    //   // })
-    //   // this.dataSource = this.datasetViewService.createViewData(data , 10);
-    //   // this.data_available = true;
-    //   // this.isLoadingResults = false;
-    // })
+    this.modelService.currentModel$.subscribe(({ entityId }) => {
+      this.entityId = entityId;
+      const params = new HttpParams()
+        .set('entityid', this.entityId)
+        .set('start', offset.toString())
+        .set('max', size.toString());
+      this._discussionApi.getList(params).subscribe((resp: Discussion[]) => {
+        resp.forEach((disc) => {
+          const discussionAll = <DiscussionAll>{};
+          discussionAll.replyAll = [];
+          discussionAll.discussion = disc;
 
-    let params = new HttpParams()
-      .set('entityid', this.entityId)
-      .set('start', offset.toString())
-      .set('max', size.toString());
-    this._discussionApi.getList(params).subscribe((resp: Discussion[]) => {
-      resp.forEach((disc) => {
-        let discussionAll = <DiscussionAll>{};
-        discussionAll.replyAll = [];
-        discussionAll.discussion = disc;
-
-        this._userService.getUserById(disc.meta.creators[0]).then((user) => {
-          discussionAll.user = user;
-        });
-        if (typeof disc.replies != 'undefined') {
-          disc.replies.forEach((repl: Reply) => {
-            let replAll = <ReplyAll>{};
-            replAll.reply = repl.reply;
-            this._userService.getUserById(repl.owner).then((user) => {
-              replAll.user = user;
-            });
-            discussionAll.replyAll.push(replAll);
+          this._userService.getUserById(disc.meta.creators[0]).then((user) => {
+            discussionAll.user = user;
           });
-        }
-        if (disc.meta.creators[0] === this.userId) {
-          discussionAll.delete = true;
-        }
-        this.discussionsAll.push(discussionAll);
+          if (typeof disc.replies != 'undefined') {
+            disc.replies.forEach((repl: Reply) => {
+              const replAll = <ReplyAll>{};
+              replAll.reply = repl.reply;
+              this._userService.getUserById(repl.owner).then((user) => {
+                replAll.user = user;
+              });
+              discussionAll.replyAll.push(replAll);
+            });
+          }
+          if (disc.meta.creators[0] === this.userId) {
+            discussionAll.delete = true;
+          }
+          this.discussionsAll.push(discussionAll);
+        });
+        this.discussions = resp;
       });
-      this.discussions = resp;
+      const paramsCount = new HttpParams().set('entityid', this.entityId);
+      this._discussionApi
+        .count(paramsCount)
+        .subscribe((count: HttpResponse<Discussion>) => {
+          const tot = count.headers.get('total');
+          this.viewDisc = true;
+          this.totalFound = Number(tot);
+        });
     });
-    let paramscount = new HttpParams().set('entityid', this.entityId);
-    this._discussionApi
-      .count(paramscount)
-      .subscribe((count: HttpResponse<Discussion>) => {
-        let tot = count.headers.get('total');
-        this.viewDisc = true;
-        this.totalFound = Number(tot);
-      });
   }
 
   commentChanged() {
@@ -195,17 +120,17 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   saveDiscussion() {
     this.viewDisc = false;
-    let ownerId = this._sessionService.getUserId();
+    const ownerId = this._sessionService.getUserId();
     this._metaBuilder.setCreators(ownerId);
-    let meta: MetaInfo = this._metaBuilder.build();
-    let discussion: Discussion = this._discussionBuilder
+    const meta: MetaInfo = this._metaBuilder.build();
+    const discussion: Discussion = this._discussionBuilder
       .setMeta(meta)
-      .setEntriryId(this.entityId)
+      .setEntityId(this.entityId)
       .setComment(this.comment)
       .build();
     this._discussionApi.postEntity(discussion).subscribe((resp: Discussion) => {
       {
-        let discussionAll = <DiscussionAll>{};
+        const discussionAll = <DiscussionAll>{};
         discussionAll.discussion = resp;
         this._userService.getUserById(resp.meta.creators[0]).then((user) => {
           discussionAll.user = user;
@@ -215,7 +140,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
         }
         if (typeof resp.replies != 'undefined') {
           resp.replies.forEach((repl: Reply) => {
-            let replAll = <ReplyAll>{};
+            const replAll = <ReplyAll>{};
             replAll.reply = repl.reply;
             this._userService.getUserById(repl.owner).then((user) => {
               replAll.user = user;
@@ -243,7 +168,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   reply(disc: DiscussionAll) {
     // let updateDisc =  this.discussionsAll.find(this.findIndexToUpdate(disc), disc.discussion._id)
     this.viewDisc = false;
-    let updateit = this.discussionsAll.indexOf(disc);
+    const updateit = this.discussionsAll.indexOf(disc);
     disc.reply = true;
     this.discussionToReply = disc;
     this.discussionsAll[updateit] = disc;
@@ -267,7 +192,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
   updateDiscussion() {
     this.viewDisc = false;
-    let reply = <Reply>{};
+    const reply = <Reply>{};
     reply.reply = this.discussionToReply.replyTemp;
     reply.owner = this._sessionService.getUserId();
     let discussionToUpdate = <Discussion>{};
@@ -279,12 +204,12 @@ export class CommentsComponent implements OnInit, OnDestroy {
       discussionToUpdate.replies.push(reply);
     }
 
-    let updateit = this.discussionsAll.indexOf(this.discussionToReply);
+    const updateit = this.discussionsAll.indexOf(this.discussionToReply);
 
     this._discussionApi
       .putEntitySecured(discussionToUpdate)
       .subscribe((resp: Discussion) => {
-        let discussionAll = <DiscussionAll>{};
+        const discussionAll = <DiscussionAll>{};
         discussionAll.replyAll = [];
         discussionAll.discussion = resp;
         if (resp.meta.creators[0] === this.userId) {
@@ -295,7 +220,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
         });
         if (typeof resp.replies != 'undefined') {
           resp.replies.forEach((repl: Reply) => {
-            let replAll = <ReplyAll>{};
+            const replAll = <ReplyAll>{};
             replAll.reply = repl.reply;
             this._userService.getUserById(repl.owner).then((user) => {
               replAll.user = user;
@@ -310,7 +235,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   viewReplies(disc: DiscussionAll) {
-    let updateit = this.discussionsAll.indexOf(disc);
+    const updateit = this.discussionsAll.indexOf(disc);
     disc.viewReply = true;
     this.discussionsAll[updateit] = disc;
 
@@ -358,17 +283,17 @@ export class CommentsComponent implements OnInit, OnDestroy {
     //   && this.viewPort.measureRenderedContentSize() - this.viewPort.measureScrollOffset() > 300)
 
     if (this.viewPort.getRenderedRange().end - e < 8) {
-      let start = this.viewPort.getDataLength();
-      let max = start + this.batch;
+      const start = this.viewPort.getDataLength();
+      const max = start + this.batch;
       this.viewDisc = false;
-      let params = new HttpParams()
+      const params = new HttpParams()
         .set('entityid', this.entityId)
         .set('min', start.toString())
         .set('max', max.toString());
       this.scrollTo = e;
       this._discussionApi.getList(params).subscribe((resp: Discussion[]) => {
         resp.forEach((disc) => {
-          let discussionAll = <DiscussionAll>{};
+          const discussionAll = <DiscussionAll>{};
           discussionAll.replyAll = [];
           discussionAll.discussion = disc;
           this._userService.getUserById(disc.meta.creators[0]).then((user) => {
@@ -376,7 +301,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
           });
           if (typeof disc.replies != 'undefined') {
             disc.replies.forEach((repl: Reply) => {
-              let replAll = <ReplyAll>{};
+              const replAll = <ReplyAll>{};
               replAll.reply = repl.reply;
               this._userService.getUserById(repl.owner).then((user) => {
                 replAll.user = user;
@@ -409,7 +334,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   delete(disc: DiscussionAll) {
-    let updateit = this.discussionsAll.indexOf(disc);
+    const updateit = this.discussionsAll.indexOf(disc);
     this._dialogsService
       .confirmDeletion('Are you sure you want to delete?', 'DELETE')
       .subscribe((resp) => {

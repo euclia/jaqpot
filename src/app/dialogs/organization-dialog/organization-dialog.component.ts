@@ -3,7 +3,7 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Router } from '@angular/router';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
 import { SessionService } from '../../session/session.service';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { Organization } from '@euclia/accounts-client';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({

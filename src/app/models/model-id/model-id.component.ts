@@ -1,12 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-  NavigationEnd,
-  UrlSerializer,
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SessionService } from '../../session/session.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { Model, MetaInfo, Feature } from '../../jaqpot-client';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
@@ -16,12 +11,8 @@ import { OrganizationService } from '../../jaqpot-client/api/organization.servic
 import { NotificationService } from '../../jaqpot-client/api/notification.service';
 import { NotificationFactoryService } from '../../jaqpot-client/factories/notification-factory.service';
 import { FeatureApiService } from '../../jaqpot-client/api/feature.service';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import {
-  OidcClientNotification,
-  OidcSecurityService,
-  UserDataResult,
-} from 'angular-auth-oidc-client';
+import { User } from '@euclia/accounts-client';
+import { OidcSecurityService, UserDataResult } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -29,9 +20,7 @@ import { Observable } from 'rxjs';
   templateUrl: './model-id.component.html',
   styleUrls: ['./model-id.component.css'],
 })
-export class ModelIdComponent implements OnInit, OnDestroy {
-  navigationSubscription;
-
+export class ModelIdComponent implements OnInit {
   id: string;
   entityId: string;
   modelId: string;
@@ -57,13 +46,15 @@ export class ModelIdComponent implements OnInit, OnDestroy {
 
   trainedMeta: Object;
   private userData$: Observable<UserDataResult>;
+  links = ['Overview', 'Features', 'Predict-Validate', 'Discussion', 'Meta'];
+  activeTab: string;
 
   constructor(
     private rightsService: RightsService,
     private router: Router,
     private route: ActivatedRoute,
     private sessionService: SessionService,
-    private modelApi: ModelApiService,
+    private modelApi: ModelService,
     private featureApi: FeatureApiService,
     private dialogsService: DialogsService,
     private userApi: UserService,
@@ -72,26 +63,23 @@ export class ModelIdComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private notificationFactory: NotificationFactoryService,
     private oidcSecurityService: OidcSecurityService,
-  ) {
-    this.navigationSubscription = this.router.events.subscribe((e) => {
-      if (e instanceof NavigationEnd) {
-        this.ngOnInit();
-      }
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.userData$ = this.oidcSecurityService.userData$;
 
     this.id = this.route.snapshot.params.id;
-    this.entityId = 'model/' + this.id;
+    this.activeTab = this.route.snapshot.firstChild.url[0].path;
     this.modelId = this.id;
-    this.modelApi.getWithIdSecured(this.id).subscribe((model: Model) => {
+    this.modelApi.getWithIdSecured(this.id).toPromise();
+
+    this.modelApi.currentModel$.subscribe(({ model, entityId }) => {
       this.modelToSee = model;
+      this.entityId = entityId;
       this.entityMeta = model.meta;
 
       try {
-        this.trainedMeta = model.additionalInfo['fromUser']['meta'];
+        this.trainedMeta = model.additionalInfo.fromUser?.meta;
       } catch (e) {
         console.error(e);
       }
@@ -128,12 +116,6 @@ export class ModelIdComponent implements OnInit, OnDestroy {
         }
       },
     );
-  }
-
-  ngOnDestroy() {
-    if (this.navigationSubscription) {
-      this.navigationSubscription.unsubscribe();
-    }
   }
 
   updatePhoto() {
@@ -253,7 +235,7 @@ export class ModelIdComponent implements OnInit, OnDestroy {
   }
 
   deleteTag(tag) {
-    let index = this.modelToSee.meta.tags.indexOf(tag);
+    const index = this.modelToSee.meta.tags.indexOf(tag);
     this.modelToSee.meta.tags.splice(index, 1);
   }
 }

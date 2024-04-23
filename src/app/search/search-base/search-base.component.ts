@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { SearchViewItem } from '../../ui-models/searchViewItem';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { Model, Dataset } from '../../jaqpot-client';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -37,7 +37,7 @@ export class SearchBaseComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private searchApi: SearchApiService,
     private datasetApi: DatasetService,
-    private modelApi: ModelApiService,
+    private modelApi: ModelService,
     private router: Router,
   ) {}
 

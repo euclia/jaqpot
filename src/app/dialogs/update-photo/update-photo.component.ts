@@ -1,7 +1,7 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -17,7 +17,7 @@ export class UpdatePhotoComponent {
 
   datasetApi: DatasetService;
   userApi: UserService;
-  modelApi: ModelApiService;
+  modelApi: ModelService;
 
   saveDisactivated = true;
 

@@ -20,6 +20,11 @@ main {
   padding: 0em 0em;
 }
 
+.logo-text {
+  color: white;
+  text-decoration: none;
+}
+
 .logo {
   margin-left: 8px;
   height: 25%;

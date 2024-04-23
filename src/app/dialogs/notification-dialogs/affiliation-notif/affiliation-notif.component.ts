@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { OrganizationService } from '../../../jaqpot-client/api/organization.service';
 import { NotificationService } from '../../../jaqpot-client/api/notification.service';
 import { UserService } from '../../../jaqpot-client/api/user.service';
-import { ModelApiService } from '../../../jaqpot-client/api/model.service';
+import { ModelService } from '../../../jaqpot-client/api/model.service';
 import { DatasetService } from '../../../jaqpot-client/api/dataset.service';
 import { Notification } from '../../../jaqpot-client/model/notification';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from '@euclia/accounts-client/dist/models/user';
-import { Organization } from '@euclia/accounts-client/dist/models/models';
+import { User } from '@euclia/accounts-client';
+import { Organization } from '@euclia/accounts-client';
 
 @Component({
   selector: 'app-affiliation-notif',
@@ -20,7 +20,7 @@ export class AffiliationNotifComponent implements OnInit {
   _organizationApi: OrganizationService;
   _notificationApi: NotificationService;
   _userApi: UserService;
-  _modelApi: ModelApiService;
+  _modelApi: ModelService;
   _datasetApi: DatasetService;
 
   openedFrom: string;

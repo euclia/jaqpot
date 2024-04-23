@@ -6,7 +6,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 import { OrganizationService } from '../../jaqpot-client/api/organization.service';
 import { UserService } from '../../jaqpot-client/api/user.service';
 import { DatasetService } from '../../jaqpot-client/api/dataset.service';
-import { ModelApiService } from '../../jaqpot-client/api/model.service';
+import { ModelService } from '../../jaqpot-client/api/model.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { interval, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ export class NotificationComponent implements OnInit {
     private userService: UserService,
     private dialogsService: DialogsService,
     private datasetService: DatasetService,
-    private modelService: ModelApiService,
+    private modelService: ModelService,
     private router: Router,
   ) {}
 
