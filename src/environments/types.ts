@@ -3,13 +3,15 @@ export interface Env {
   logLevel: string;
   production: boolean;
   jaqpotApi: string;
-  notificationPolling: boolean;
-  scope: string;
-  silent_redirect_url: string;
   accountsApi: string;
-  response_type: string;
-  stsServer: string;
-  redirect_url: string;
-  client_id: string;
+  notificationPolling: boolean;
   google_analytics_tag: string;
+  oidc: {
+    stsServer: string;
+    redirectUrl: string;
+    clientId: string;
+    responseType: string;
+    scope: string;
+    silentRedirectUrl: string;
+  };
 }
